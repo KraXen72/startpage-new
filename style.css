@@ -24,10 +24,11 @@
  .cols-2 and .cols-3:	show either 1,2,3 or just 1,2 columns
  .nosearch:				hide search bar
  .nopic:				hide pic
+ .notitle:				hide category titles
  .leftpic:				put the pic to the left
  .tallpic: 				pic will be atleast 360px tall
+ .compact:				make links compact
 */
-
 
 body {
   background-color: var(--main-background);
@@ -175,18 +176,15 @@ header img {
   display: none;
 }
 
-/*no search*/
-.container.nosearch .search {
-	display: none;
-}
 
-/*no pic*/
-.container.nopic header {
-	display: none;
-}
+.container.nosearch .search { display: none; } /*no search*/
+.container.nopic header { display: none; } /*no pic*/
+.container.notitle .col .title { display: none; } /*no title*/
+.container.compact .col { align-content: start; } /*compact*/
+
 
 /*leftpic*/
-.container.leftpic {
+.container.leftpic { /*by default 3 cols and search*/
 	grid-template-columns: min-content 1fr 1fr 1fr;
 	grid-template-rows: min-content minmax(var(--min-pic-height), 1fr);
 
@@ -208,21 +206,31 @@ header img {
 	max-width: var(--min-pic-width);
 }
 
+/*connected left pic - unround stuff*/
+.container.leftpic.connect header{
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.container.leftpic.connect .col.first-col {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
 /*3 columns leftpic*/
-.container.leftpic.cols-3.nosearch {
+.container.leftpic.cols-3.nosearch { /*no search*/
 	grid-template-rows: minmax(var(--min-pic-height), 1fr);
 	grid-template-areas: 
 	"header col col col";
 }
 
 /*2 columns leftpic*/
-.container.leftpic.cols-2 {
+.container.leftpic.cols-2 { /*2 cols with search*/
 	grid-template-columns: min-content 1fr 1fr;
 	grid-template-areas: 
 	"search search search"
 	"header col col";
 }
-.container.leftpic.cols-2.nosearch {
+.container.leftpic.cols-2.nosearch {/*2 cols without search*/
 	grid-template-rows: minmax(var(--min-pic-height), 1fr);
 	grid-template-areas: 
 	"header col col";
