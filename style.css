@@ -8,10 +8,26 @@
   --green: #98c379;
   --cyan: #61afef;
   --red: #e06c75;
+
   --border-radius: 10px;
   --border-size: 0px;
-  --margin-space: 10px;
+
+  --margin-col: 10px;
+  --margin-row: 10px;
+
+  --min-pic-height: 1fr;
+  --min-pic-width: 279.72px;
 }
+
+/* ui layout changes for .container 
+ .connect:				connects links together
+ .cols-2 and .cols-3:	show either 1,2,3 or just 1,2 columns
+ .nosearch:				hide search bar
+ .nopic:				hide pic
+ .leftpic:				put the pic to the left
+ .tallpic: 				pic will be atleast 360px tall
+*/
+
 
 body {
   background-color: var(--main-background);
@@ -26,6 +42,10 @@ body {
   height: 100%;
 }
 
+/*tallpic*/
+.container.tallpic {
+	--min-pic-height: 358px;
+}
 .container {
   display: grid;
   grid-template-areas:
@@ -33,14 +53,15 @@ body {
     "search search search"
     "col col col";
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(3, auto);
+  grid-template-rows: minmax(var(--min-pic-height), 1fr) 1fr 1fr;
+
   width: 100%;
   max-width: 40rem;
 }
 
 header {
   grid-area: header;
-  margin: var(--margin-space);
+  margin: var(--margin-row) var(--margin-col);
   border-radius: var(--border-radius);
   overflow: hidden;
   border: var(--border-size) solid var(--main-background);
@@ -60,7 +81,7 @@ header img {
   grid-area: search;
   padding: 1rem;
   background-color: var(--main-card-background);
-  margin: var(--margin-space);
+  margin: var(--margin-row) var(--margin-col);
   border-radius: var(--border-radius);
   overflow: hidden;
   border: var(--border-size) solid var(--main-background);
@@ -91,9 +112,10 @@ header img {
   width: 80%;
 }
 
+/*columns*/
 .col {
   padding: 0;
-  margin: var(--margin-space);
+  margin: var(--margin-row) var(--margin-col);
   display: grid;
   background-color: var(--main-card-background);
   border-radius: var(--border-radius);
@@ -119,6 +141,91 @@ header img {
 
 .col a:hover {
   background-color: #ffffff15;
+}
+
+/* connected columns logic*/
+.container.connect .col {
+  border-radius: 0;
+}
+.container.connect {
+  --margin-col: 0px;
+}
+.container.connect.cols-3 .col.first-col,
+.container.connect.cols-2 .col.first-col {
+  border-radius: var(--border-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.container.connect.cols-3 .col.third-col,
+.container.connect.cols-2 .col.second-col {
+  border-radius: var(--border-radius);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* 2 columns*/
+.container.cols-2 {
+  grid-template-areas:
+    "header header"
+    "search search"
+    "col col";
+  grid-template-columns: 1fr 1fr;
+}
+.container.cols-2 .col.third-col {
+  display: none;
+}
+
+/*no search*/
+.container.nosearch .search {
+	display: none;
+}
+
+/*no pic*/
+.container.nopic header {
+	display: none;
+}
+
+/*leftpic*/
+.container.leftpic {
+	grid-template-columns: min-content 1fr 1fr 1fr;
+	grid-template-rows: min-content minmax(var(--min-pic-height), 1fr);
+
+	grid-template-areas: 
+	"search search search search"
+	"header col col col";
+
+	max-width: calc(40rem + var(--min-pic-width))
+}
+.container.leftpic header {
+	max-width: var(--min-pic-width);
+}
+.container.leftpic header img {
+	width: auto;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	max-height: var(--min-pic-height);
+	max-width: var(--min-pic-width);
+}
+
+/*3 columns leftpic*/
+.container.leftpic.cols-3.nosearch {
+	grid-template-rows: minmax(var(--min-pic-height), 1fr);
+	grid-template-areas: 
+	"header col col col";
+}
+
+/*2 columns leftpic*/
+.container.leftpic.cols-2 {
+	grid-template-columns: min-content 1fr 1fr;
+	grid-template-areas: 
+	"search search search"
+	"header col col";
+}
+.container.leftpic.cols-2.nosearch {
+	grid-template-rows: minmax(var(--min-pic-height), 1fr);
+	grid-template-areas: 
+	"header col col";
 }
 
 /* mobile screen */
