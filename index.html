@@ -1,44 +1,64 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Document</title>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="style.css" />
+	<script src="observe.js"></script>
+	<script src="main.js"></script> <!-- first set up the observer object -->
+	<script src="settings.js"></script> <!-- load from Localstorage and make settings object-->
+	<title>~</title>
 </head>
 
 <body>
-  <div class="container cols-2 leftpic tallpic nosearch connect notitle compact">
-    <header><img src="background.png" /></header>
-    <div class="search">
-      Search
-      <form method="get" target="_blank" name="search" action="https://www.google.com/search">
-        <input type="text" autofocus="autofocus" name="q" \ />
-      </form>
-    </div>
-    <div class="col first-col">
-      <div class="title">Google</div>
-      <a href="https://mail.google.com" class="links" target="_blank">Gmail</a>
-      <a href="https://drive.google.com" class="links" target="_blank">Drive</a>
-      <a href="https://docs.google.com/spreadsheets" class="links" target="_blank">Spreadsheet</a>
-      <a href="https://docs.google.com/forms/" class="links" target="_blank">Form</a>
-    </div>
-    <div class="col second-col">
-      <div class="title">Social Media</div>
-      <a href="https://web.whatsapp.com" class="links" target="_blank">Whatsapp</a>
-      <a href="https://web.telegram.org" class="links" target="_blank">Telegram</a>
-      <a href="https://youtube.com" class="links" target="_blank">Youtube</a>
-      <a href="https://reddit.com" class="links" target="_blank">Reddit</a>
-    </div>
-    <div class="col third-col">
-      <div class="title">Others</div>
-      <a href="#" class="links" target="_blank">Link 1</a>
-      <a href="#" class="links" target="_blank">Link 2</a>
-      <a href="#" class="links" target="_blank">Link 3</a>
-      <a href="#" class="links" target="_blank">Link 4</a>
-  </div>
-  </div>
+	<div id="settings-screen" class="hidden"></div>
+	<div id="container" class="container cols-3 nogreeting">
+		<header><img src="background.png" /></header>
+		<div class="search">
+			Search
+			<form method="get" target="_blank" name="search" action="https://www.google.com/search">
+				<input type="text" autofocus="autofocus" name="q" />
+			</form>
+		</div>
+		<div class="colwrap">
+			<h1 class="title greeting">heya <span class="accent">~</span> </h1>
+			<div class="col first-col">
+				<div class="title">google</div>
+				<a href="https://mail.google.com" class="links" target="_blank"><span class="accent">~</span>gmail</a>
+				<a href="https://drive.google.com" class="links" target="_blank"><span
+						class="accent">~</span>outlook</a>
+				<a href="https://docs.google.com/spreadsheets" class="links" target="_blank"><span
+						class="accent">~</span>spreadsheet</a>
+				<a href="https://docs.google.com/forms/" class="links" target="_blank"><span
+						class="accent">~</span>form</a>
+			</div>
+			<div class="col second-col">
+				<div class="title">social Media</div>
+				<a href="https://web.whatsapp.com" class="links" target="_blank"><span
+						class="accent">~</span>whatsapp</a>
+				<a href="https://web.telegram.org" class="links" target="_blank"><span
+						class="accent">~</span>telegram</a>
+				<a href="https://youtube.com" class="links" target="_blank"><span class="accent">~</span>youtube</a>
+				<a href="https://reddit.com" class="links" target="_blank"><span class="accent">~</span>reddit</a>
+			</div>
+			<div class="col third-col">
+				<div class="title">others</div>
+				<a href="#" class="links" target="_blank"><span class="accent">~</span>link 1</a>
+				<a href="#" class="links" target="_blank"><span class="accent">~</span>link 2</a>
+				<a href="#" class="links" target="_blank"><span class="accent">~</span>link 3</a>
+				<a href="#" class="links" target="_blank"><span class="accent">~</span>link 4</a>
+			</div>
+		</div>
+
+	</div>
+
+	<button class="toggle incognito" id="toggle" aria-label="toggle image">
+		&#9680;
+	</button>
+	<button class="settings incognito" id="settings" aria-label="open settings">
+		&#9881;
+	</button>
 </body>
 
 </html>
