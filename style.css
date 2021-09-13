@@ -102,9 +102,22 @@ body {
   grid-template-areas:
   "col1 col2 col3";
 }
-.col#sortable-col1 {grid-area:"col1"}
-.col#sortable-col2 {grid-area:"col2"}
-.col#sortable-col3 {grid-area:"col3"}
+.sortable-col#sortable-col1 {grid-area:"col1"}
+.sortable-col#sortable-col2 {grid-area:"col2"}
+.sortable-col#sortable-col3 {grid-area:"col3"}
+
+.sortable-col {
+  display: grid;
+  align-content: start;
+}
+.sortable-col .links {
+  color: var(--main-text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /*container*/
 .container {

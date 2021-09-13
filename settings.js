@@ -2,98 +2,58 @@
 //update from localstorage here
 
 const settings = {
-    s: {
-        TXT_TITLE: {title: "Settings", type: 'heading'},
-        connect: {
-            title: `Connect columns`,
-            desc: `connects link columns together`,
-            type: 'bool',
-            key: 'connect',
-            classes: ['connect', '']
-        },
-        compact: {
-            title: `Compact links`,
-            desc: `make links not take up as much space`,
-            type: 'bool',
-            key: 'compact',
-            classes: ['compact', '']
-        },
-        leftpic: {
-            title: `Move Image to left`,
-            desc: `Move image to left instead of top. will have no effect if image is hidden.`,
-            type: 'bool',
-            key: 'leftpic',
-            classes: ['leftpic', '']
-        },
-        tallpic: {
-            title: `Tall left image`,
-            desc: `(if Image is on the left) make the image tall (for portrait images)`,
-            type: 'bool',
-            key: 'tallpic',
-            classes: ['tallpic', '']
-        },
-        slim: {
-            title: `Slim container`,
-            desc: `max width of container is now 32rem instaed of 40rem`,
-            type: 'bool',
-            key: 'slim',
-            classes: ['slim', '']
-        },
-        cols: {
-            title: `Number of columns`,
-            desc: `How many columns to show: either 2 or 3`,
-            type: 'sel',
-            opts: [3,2],
-            key: 'cols',
-            classes: ['cols-3', 'cols-2']
-        },
-        verdana: {
-            title: `Use Verdana font`,
-            desc: `Use Verdana font instead of Roboto`,
-            type: 'bool',
-            key: 'verdana',
-            classes: ['verdana', '']
-        },
-        TXT_HIDING: {title: "Hiding elements", type: 'heading'},
-        nosearch: {
-            title: `Hide Search`,
-            desc: '',
-            type: 'bool',
-            key: 'nosearch',
-            classes: ['nosearch', '']
-        },
-        nopic: {
-            title: `Hide Image`,
-            desc: '',
-            type: 'bool',
-            key: 'nopic',
-            classes: ['nopic', '']
-        },
-        notitle: {
-            title: `Hide Title`,
-            desc: '',
-            key: 'notitle',
-            type: 'bool',
-            classes: ['notitle', '']
-        },
-        nogreeting: {
-            title: `Hide Greeting`,
-            desc: '',
-            key: 'nogreeting',
-            type: 'bool',
-            classes: ['nogreeting', '']
-        }
+    s:{
+        TXT_TITLE: { title:"Settings",type:'heading' },
+        connect: { title:`Connect columns`,desc:`connects link columns together`,type:'bool',key:'connect',classes:['connect',''] },
+        compact: { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
+        leftpic: { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
+        tallpic: {title:`Tall left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
+        slim: { title:`Slim container`,desc:`max width of container is now 32rem instaed of 40rem`,type:'bool',key:'slim',classes:['slim','']},
+        cols: { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
+        verdana: { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
+        TXT_HIDING: { title:"Hiding elements",type:'heading' },
+        nosearch: { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
+        nopic: { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
+        notitle: { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
+        nogreeting: { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] }
+    },
+    l: { //links
+        col1: [
+            {name:"gmail",url:"https://mail.google.com/mail/u/0/#inbox"},
+            {name:"outlook",url:"https://outlook.sk"},
+            {name:"r/unixpron",url:"https://www.reddit.com/r/unixporn/"},
+            {name:"r/mk",url:"https://www.reddit.com/r/MechanicalKeyboards/"},
+            {name:"monkeytype",url:"https://monkeytype.com/"},
+            {name:"rosebox",url:"https://github.com/KraXen72/rosebox"},
+            {name:"krunker market",url:"https://www.krunker.io/social.html"},
+            {name:"yeehow item list",url:"https://yee.how/item-list/"}
+        ],
+        col2: [
+            {name:"github",url:"https://github.com/"},
+            {name:"mod forum",url:"https://forum.vivaldi.net/category/52/modifications"},
+            {name:"trello",url:"https://trello.com/kraxen7/boards"},
+            {name:"pcmskin3d",url:"https://www.planetminecraft.com/pmcskin3d/"},
+            {name:"keybr",url:"https://www.keybr.com/"},
+            {name:"planningcenter",url:"https://services.planningcenteronline.com/dashboard"},
+            {name:"wallpaper collection",url:"https://mega.nz/folder/PpohCIpT#tII4Q60AFpgfnEYFywwlow"},
+            {name:"catus airsoft",url:"https://catus.sk"}
+        ],
+        col3: [
+            {name:"link 1",url:"#"},
+            {name:"link 2",url:"#"},
+            {name:"link 3",url:"#"},
+            {name:"link 4",url:"#"},
+            {name:"link 5",url:"#"},
+        ]
     }
 }
 
 /**
  * creates a new Setting element
- * @classdesc DOM element for a certain setting element
  */
 class SettingElem {
     //s-update is the class for element to watch
     constructor (props) {
-        console.log(props)
         /**
          * is the key to get checked when writing an update, for checkboxes it's checked, for selects its value etc. 
          * @type {String} 
@@ -163,7 +123,6 @@ class SettingElem {
                 this.HTML = `<span class="setting-title">${props.title}</span><span>Unknown setting type</span>`
                 this.mutable = false
         }
-        
     }
     //this reflects the changes on the actual layout
     /**
@@ -184,11 +143,12 @@ class SettingElem {
     }
 
     /**
-     * this initializes the element and its eventlisteners
+     * this initializes the element and its eventlisteners. 
      * @returns {Element}
     */
-    get elem() {
-        let w = document.createElement('div')
+    get elem() { 
+        // i only create the element after .elem is called so i don't pollute the dom with virutal elements when making settings
+        let w = document.createElement('div') //w stands for wrapper
         w.classList.add("setting")
         w.id = `settingElem-${this.props.key}`
         w.classList.add(this.type) //add bool or title etc
@@ -200,8 +160,44 @@ class SettingElem {
                 this.update = {elem: w, callback: 'normal'}
             }
         }
-        
         return w //return the element
+    }
+}
+
+/**
+ * creates a new Link element (initialization creates the dom element)
+ */
+class LinkElem {
+    /**
+     * creates the link dom element.
+     * @param {String} name label of the link
+     * @param {String} url url/href of the link
+     * @param {'normal'|'config'} mode what type of links you need
+     */
+    constructor(name, url, mode) {
+        let normal = mode === 'normal'
+
+        this.href = normal ? url : "#"
+        this.name = name
+        this.target = normal ? '_blank' : '_self'
+        this.classList = "links"
+
+        this.HTML = 
+        `<span class="accent">${normal ? "~" : '&times;'}</span>
+        <span class="link-text">${name}</span>`
+    }
+    /**
+     * get the link element
+     */
+    get elem() {
+        let w = document.createElement('a')
+        w.href = this.href
+        w.target = this.target
+        w.classList = this.classList
+        w.title = this.name
+        w.innerHTML = this.HTML
+
+        return w
     }
 }
 
@@ -226,7 +222,31 @@ function initsettings() {
         let set = new SettingElem(val)
         document.getElementById("layout-settings").appendChild(set.elem)
     }
+    
+    //generate sortable links
+    //load links into columns - repeat once for every column
+    for (let i = 0; i < Object.keys(settings.l).length; i++) {
+        loadlinks(`sortable-col${i+1}`, settings.l[`col${i+1}`], 'config')
+    }
+
     console.log("sucessfully generated settings")
+}
+
+/**
+ * load links into an element. 
+ * @param {String} id getelementbyid id for the column to insert to
+ * @param {Object} db settigns.l.col1 for example
+ * @param {'normal'|'config'} mode what type of link you need
+ */
+function loadlinks(id, db, mode) {
+    for (let i = 0; i < Object.keys(db).length; i++) {
+        const key = Object.keys(db)[i];
+        const val = db[key]
+
+        let link = ''
+        link = new LinkElem(val.name, val.url, mode)
+        document.getElementById(id).appendChild(link.elem)
+    }
 }
 
 
