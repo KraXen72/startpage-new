@@ -22,7 +22,6 @@ const containerObj = {
 const Container = Observable.from(containerObj)
 Container.observe(changes => {
     changes.forEach(change => {
-
         if (change.path[0] === "p") {
             key = change.path[1]
             console.log(`detected ${change.type} in '${key}': `, change)
@@ -60,7 +59,6 @@ Container.observe(changes => {
                 console.warn(`you assigned some random bs deep in the object and its not a prop, that's on you man`)
             }
         }
-
     }) //cols-2 leftpic tallpic slim verdana nosearch notitle compact connect
 })
 

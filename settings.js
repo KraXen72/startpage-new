@@ -1,6 +1,10 @@
 //TODO update these settings' values when i load the json from localstorage (before generating load from localstorage)
 //update from localstorage here
 
+/**
+ * creates a new Setting element
+ * @classdesc DOM element for a certain setting element
+ */
 class SettingElem {
     //s-update is the class for element to watch
     //updateKey is the key to get checked when writing an update, for checkboxes it's checked, for selects its value etc.
@@ -194,8 +198,9 @@ function initsettings() {
         const val = settings.s[key]
 
         let set = new SettingElem(val)
-        document.getElementById("settings-screen").appendChild(set.elem)
+        document.getElementById("layout-settings").appendChild(set.elem)
     }
     console.log("sucessfully generated settings")
 }
+
 

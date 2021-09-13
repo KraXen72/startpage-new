@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="layout.css" />
 	<script src="observe.js"></script>
 	<script src="main.js"></script> <!-- first set up the observer object -->
 	<script src="settings.js"></script> <!-- load from Localstorage and make settings object-->
@@ -12,7 +13,19 @@
 </head>
 
 <body>
-	<div id="settings-screen" class="hidden"></div>
+	<div id="settings-screen" class="hidden">
+		<div id="layout-settings"></div>
+		<div id="link-settings">
+			<br>
+			<hr>
+			<h1 class="setting-title">Links</h1>
+			<div id="sortable-colwrap">
+				<div class="col" id="sortable-col1"></div>
+				<div class="col" id="sortable-col2"></div>
+				<div class="col" id="sortable-col3"></div>
+			</div>
+		</div>
+	</div>
 	<div id="container" class="container cols-3 nogreeting">
 		<header><img src="background.png" /></header>
 		<div class="search">
@@ -59,6 +72,10 @@
 	<button class="settings incognito" id="settings" aria-label="open settings">
 		&#9881;
 	</button>
+
+	<template id="link-template">
+		<a href="https://web.whatsapp.com" class="links" target="_blank"><span class="accent">~</span><span class="link-text">text</span></a>
+	</template>
 </body>
 
 </html>
