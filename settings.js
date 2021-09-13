@@ -273,7 +273,12 @@ function initsettings() {
         let content = sortableElements.map(el => {
             return serializeSortable(el)
         })
-        console.log(content)
+        let finalobj = {
+            col1: content[0],
+            col2: content[1],
+            col3: content[2]
+        }
+        console.log(finalobj)
     }
 
     console.log("sucessfully generated settings")
@@ -321,11 +326,6 @@ function serializeSortable(SortableElem) {
     let content = children.map(span => {
         return {name: span.querySelector('.link-text').textContent, url: span.href}
     })
-    let finalobj = {
-        col1: content[0],
-        col2: content[1],
-        col3: content[2]
-    }
-    return finalobj
+    return content
 }
 
