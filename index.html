@@ -4,9 +4,10 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="style.css" />
-	<link rel="stylesheet" href="layout.css" />
+	<link rel="stylesheet" href="style.css" /> <!-- main stylesheet -->
+	<link rel="stylesheet" href="layout.css" /> <!-- conditional css logic for layout -->
 	<script src="observe.js"></script>
+	<script src="sortable.js"></script>
 	<script src="main.js"></script> <!-- first set up the observer object -->
 	<script src="settings.js"></script> <!-- load from Localstorage and make settings object-->
 	<title>~</title>
@@ -16,13 +17,12 @@
 	<div id="settings-screen" class="hidden">
 		<div id="layout-settings"></div>
 		<div id="link-settings">
-			<br>
-			<hr>
+			<br><hr>
 			<h1 class="setting-title">Links</h1>
 			<div id="sortable-colwrap">
-				<div class="col" id="sortable-col1"></div>
-				<div class="col" id="sortable-col2"></div>
-				<div class="col" id="sortable-col3"></div>
+				<div class="col sortable-col" id="sortable-col1"></div>
+				<div class="col sortable-col" id="sortable-col2"></div>
+				<div class="col sortable-col" id="sortable-col3"></div>
 			</div>
 		</div>
 	</div>

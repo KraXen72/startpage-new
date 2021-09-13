@@ -95,6 +95,17 @@ body {
   align-items: center;
 }
 
+/*settings link stuff*/
+#sortable-colwrap {
+  display: grid;
+  grid-template: 1fr / repeat(3, 1fr);
+  grid-template-areas:
+  "col1 col2 col3";
+}
+.col#sortable-col1 {grid-area:"col1"}
+.col#sortable-col2 {grid-area:"col2"}
+.col#sortable-col3 {grid-area:"col3"}
+
 /*container*/
 .container {
   display: grid;
@@ -201,8 +212,6 @@ header img {
 }
 
 .accent { color: var(--main-accent); padding-right: 10px; }
-
-/*tweaks*/
 span.accent {min-width: 25px ;}
 .jsoninp {width: 50%;}
 
