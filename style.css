@@ -1,21 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Rubik:ital,wght@1,300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 :root {
-	
+	/*
   --main-background: #1e222a;
   --main-card-background: #282c34;
   --main-text-color: #dddddd;
   --main-text-color-secondary: #aaaaaa;
   --main-accent: #536785;
-	
+  --main-accent-secondary: #536785;
+	*/
 	/*rosebox*/
-	/*
+	
 	--main-background: #232323;
 	--main-card-background: #262626;
-	--main-text-color: #a3a5aa;
+	--main-text-color: rgba(255, 255, 255, 0.8);
 	--main-text-color-secondary: #a3a5aa;
-  --main-accent: #a57562
-	*/
+  --main-accent: #a57562;
+  --main-accent-secondary: rgba(165, 117, 98, 0.2);
+	
 
   --green: #98c379;
   --cyan: #61afef;
@@ -48,9 +50,9 @@ body {
   min-height: 100vh;
 }
 
-* {
+/** {
 	box-sizing: border-box;
-}
+}*/
 .hidden {display:none}
 
 /*settings*/
@@ -73,6 +75,7 @@ body {
   display: flex;
   align-items: center;
   height: 30px;
+  color: var(--main-text-color-secondary);
 }
 .setting .setting-title {
   width: 100%;
@@ -80,10 +83,12 @@ body {
 }
 .setting h1.setting-title {
   font-size: 1.70rem;
+  color: var(--main-text-color);
 }
 .setting .setting-desc {
-  border: 2px solid var(--main-text-color-secondary);
-  background: var(--main-accent);
+  border: 2px solid var(--main-accent-secondary);
+  color: var(--main-text-color);
+  background: var(--main-accent-secondary);
   opacity: 0.7;
   cursor: pointer;
   border-radius: 100px;
@@ -111,12 +116,24 @@ body {
   align-content: start;
 }
 .sortable-col .links {
-  color: var(--main-text-color);
+  color: var(--main-text-color-secondary);
   text-decoration: none;
   font-size: 1rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background-color: var(--main-card-background);
+}
+#link-settings * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.sortable-col .links-ghost {
+  background-color: var(--cyan);
+  opacity: 0;
 }
 
 /*container*/
@@ -212,6 +229,7 @@ header img {
   /*background-color: #536785;*/
   background-color: var(--main-accent);
   font-weight: 800;
+  color: white;
 }
 .col a {
   padding: 0.5rem 1rem;

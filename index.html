@@ -16,15 +16,16 @@
 <body>
 	<div id="settings-screen" class="hidden">
 		<div id="layout-settings"></div>
-		<div id="link-settings">
+		<div id="link-settings" draggable="false">
 			<br><hr>
-			<h1 class="setting-title">Links</h1>
-			<h3 class="setting-title">drag & drop to reorder</h3>
-			<div id="sortable-colwrap">
-				<div class="sortable-col" id="sortable-col1"></div>
-				<div class="sortable-col" id="sortable-col2"></div>
-				<div class="sortable-col" id="sortable-col3"></div>
+			<h1 class="setting-title" draggable="false">Links</h1>
+			<h3 class="setting-title" draggable="false">drag & drop to reorder</h3>
+			<div id="sortable-colwrap" draggable="false">
+				<div class="sortable-col" draggable="false" id="sortable-col1"></div>
+				<div class="sortable-col" draggable="false" id="sortable-col2"></div>
+				<div class="sortable-col" draggable="false" id="sortable-col3"></div>
 			</div>
+			
 		</div>
 	</div>
 	<div id="container" class="container cols-3 nogreeting">

@@ -1,6 +1,5 @@
 //TODO update these settings' values when i load the json from localstorage (before generating load from localstorage)
 //update from localstorage here
-
 const settings = {
     s:{
         TXT_TITLE: { title:"Settings",type:'heading' },
@@ -176,13 +175,23 @@ class LinkElem {
      */
     constructor(name, url, mode) {
         let normal = mode === 'normal'
+        /**
+         * some properties that will later get assigned to the element
+         * @type {Object}
+         */
+        this.elemProps = {} 
 
-        this.href = normal ? url : "#"
-        this.name = name
-        this.target = normal ? '_blank' : '_self'
-        this.classList = "links"
+        /**
+         * string to be passed into createElement, for normal mode it's a, for config it's span
+         */
+        this.elemStr = normal ? 'a' : 'span'
 
-        this.HTML = 
+        this.elemProps.href = normal ? url : "#"
+        this.elemProps.title = name
+        this.elemProps.target = normal ? '_blank' : '_self'
+        this.elemProps.classList = "links"
+        this.elemProps.draggable = false
+        this.elemProps.innerHTML = 
         `<span class="accent">${normal ? "~" : '&times;'}</span>
         <span class="link-text">${name}</span>`
     }
@@ -190,12 +199,8 @@ class LinkElem {
      * get the link element
      */
     get elem() {
-        let w = document.createElement('a')
-        w.href = this.href
-        w.target = this.target
-        w.classList = this.classList
-        w.title = this.name
-        w.innerHTML = this.HTML
+        let w = document.createElement(this.elemStr)
+        Object.assign(w, this.elemProps)
 
         return w
     }
@@ -227,7 +232,16 @@ function initsettings() {
     //load links into columns - repeat once for every column
     for (let i = 0; i < Object.keys(settings.l).length; i++) {
         loadlinks(`sortable-col${i+1}`, settings.l[`col${i+1}`], 'config')
+        let col = document.getElementById(`sortable-col${i+1}`)
+        new Sortable(col, {
+            group: 'shared',
+            animation: 150,
+            handle: '.links',
+            ghostClass: 'links-ghost'
+        })
     }
+
+    
 
     console.log("sucessfully generated settings")
 }
