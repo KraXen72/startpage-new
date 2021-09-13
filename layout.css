@@ -24,6 +24,10 @@
 	border-radius: var(--border-radius);
 	margin: var(--margin-row) var(--margin-col);
 }
+.container.connect.nogreeting:not(.leftpic) .first-col { border-top-left-radius: var(--border-radius); }
+.container.connect.nogreeting.cols-3 .third-col { border-top-right-radius: var(--border-radius) }
+.container.connect.nogreeting.cols-2 .second-col { border-top-right-radius: var(--border-radius) }
+
 .container.connect .col {
 	border-radius: 0;
 	background: transparent;
@@ -122,9 +126,9 @@
 	border-bottom-left-radius: 0;
 }
 /* round the top right border when conencted and leftpic cause colwrap has margin */
+/*.container.leftpic.nogreeting .first-col { border-top-left-radius: var(--border-radius);}*/
 .container.leftpic.nogreeting.cols-3 .third-col { border-top-right-radius: var(--border-radius) }
 .container.leftpic.nogreeting.cols-2 .second-col { border-top-right-radius: var(--border-radius) }
-
 
 /*2 columns leftpic*/
 .container.leftpic.cols-2 { /*2 cols with search*/
