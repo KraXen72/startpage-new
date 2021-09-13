@@ -14,7 +14,8 @@ const settings = {
         nosearch: { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
         nopic: { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
         notitle: { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
-        nogreeting: { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] }
+        nogreeting: { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] },
+        
     },
     l: { //links
         col1: [
