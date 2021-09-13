@@ -190,14 +190,13 @@ class LinkElem {
         this.elemStr = normal ? 'a' : 'span'
 
         this.elemProps = {
-            href: normal ? url : "#",
+            href: url, //href don't work on span anyway
             title: name,
             target: normal ? '_blank' : '_self',
             classList: "links",
             draggable: false,
             innerHTML: `<span class="accent">${normal ? "~" : '&times;'}</span>
             <span class="link-text">${name}</span>`
-
         }
     }
     /**
@@ -206,6 +205,11 @@ class LinkElem {
     get elem() {
         let w = document.createElement(this.elemStr)
         Object.assign(w, this.elemProps)
+        w.querySelector('span.accent').onclick = () => {
+            if (window.confirm(`Really delete '${this.elemProps.title}'?`)) {
+                w.remove()
+            }
+        } //yeet the thing on span.accent onclick
 
         return w
     }
@@ -235,15 +239,17 @@ function initsettings() {
     
     //generate sortable links
     //load links into columns - repeat once for every column
+    let Sortables = []
     for (let i = 0; i < Object.keys(settings.l).length; i++) {
         loadlinks(`sortable-col${i+1}`, settings.l[`col${i+1}`], 'config')
         let col = document.getElementById(`sortable-col${i+1}`)
-        new Sortable(col, {
+        let sort = new Sortable(col, {
             group: 'shared',
             animation: 150,
-            handle: '.links',
+            handle: '.link-text',
             ghostClass: 'links-ghost'
         })
+        Sortables.push(sort)
     }
 
     //add links submit form
@@ -260,6 +266,14 @@ function initsettings() {
         let fewestChildrenColumnSelector = getFewestChildren(['#sortable-col1','#sortable-col2','#sortable-col3'])
         console.log(fewestChildrenColumnSelector)
         document.querySelector(fewestChildrenColumnSelector).appendChild(link.elem)
+    }
+
+    document.getElementById('links-save').onclick = () => {
+        let sortableElements = Sortables.map(s => s.el)
+        let content = sortableElements.map(el => {
+            return serializeSortable(el)
+        })
+        console.log(content)
     }
 
     console.log("sucessfully generated settings")
@@ -297,4 +311,21 @@ function getFewestChildren(selectorArray) {
     return children[0].selector;
 }
 
+/**
+ * provided a html element that is a valid sortable, this will parse all its children, get the values and return an object
+ * @param {Element} SortableElem the Element that is a valid sortable
+ * @returns {Object} object in the same structure as settings.l
+ */
+function serializeSortable(SortableElem) {
+    let children = [...SortableElem.children]
+    let content = children.map(span => {
+        return {name: span.querySelector('.link-text').textContent, url: span.href}
+    })
+    let finalobj = {
+        col1: content[0],
+        col2: content[1],
+        col3: content[2]
+    }
+    return finalobj
+}
 

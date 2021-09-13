@@ -139,6 +139,9 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+#link-add-bar {
+  display: flex;
+}
 
 .sortable-col .links-ghost {
   background-color: var(--cyan);
