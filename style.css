@@ -118,11 +118,20 @@ body {
 .sortable-col .links {
   color: var(--main-text-color-secondary);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   background-color: var(--main-card-background);
+
+  cursor: grab;
+}
+.sortable-col .links .accent {
+  padding-right: 0;
+  cursor: pointer;
+}
+.sortable-col .links .accent:hover {
+  color: var(--red);
 }
 #link-settings * {
   user-select: none;
@@ -270,7 +279,7 @@ span.accent {min-width: 25px ;}
 .incognito {opacity: 0.001;}
 .incognito:hover {opacity: 1;}
 
-/*slider*/
+/*slider & select ig*/
 .switch {
   display: inline-block;
   height: 34px;
@@ -278,10 +287,17 @@ span.accent {min-width: 25px ;}
   width: 60px;
   transform: scale(0.7);
 }
+select.s-update {
+  width: 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+  mix-blend-mode: difference;
+}
 .switch input {
   display:none;
 }
-.slider {
+.slider, select.s-update{
   background-color: var(--main-text-color-secondary);
   bottom: 0;
   cursor: pointer;
@@ -305,6 +321,26 @@ span.accent {min-width: 25px ;}
 }
 input:checked + .slider { background-color: #66bb6a; }
 input:checked + .slider:before { transform: translateX(calc(26px * 0.7))}
+
+/*buttons and inputs*/
+/*rosebox buttons and inputs*/
+.rb-button {
+  background-color: #5e4c44;
+  border-color: var(--main-accent);
+  border-radius: calc(var(--border-radius) / 2);
+  border-style: solid;
+  color: #a3a5aa;
+}
+.rb-button, .rb-input {outline: 0px transparent !important;}
+.rb-button:hover {opacity: 0.9;}
+.rb-button:active {opacity: 0.5;}
+.rb-input {
+  background-color: #232323;
+  border-color: var(--main-accent);
+  border-radius: calc(var(--border-radius) / 2);
+  border-style: solid;
+  color: #a3a5aa
+}
 
 /* mobile screen */
 @media screen and (max-width: 700px) {

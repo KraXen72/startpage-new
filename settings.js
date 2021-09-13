@@ -108,9 +108,12 @@ class SettingElem {
                 this.mutable = false
                 break;
             case 'sel':
-                this.HTML = `<span class="setting-title" title="${props.desc}">${props.title}</span> <select class="s-update">${
-                    props.opts.map( o => `<option value ="${o}">${o}</option>`).join("") /* create option tags*/
-                }</select>`
+                this.HTML = `<span class="setting-title" title="${props.desc}">${props.title}</span> 
+                <label class="switch">
+                    <select class="s-update">${
+                        props.opts.map( o => `<option value ="${o}">${o}</option>`).join("") /* create option tags*/
+                    }</select>
+                </label>`
                 if (!!props.desc && props.desc !== "") {
                     this.HTML += `<span class="setting-desc" title="${props.desc}">?</span>`
                 }
@@ -186,14 +189,16 @@ class LinkElem {
          */
         this.elemStr = normal ? 'a' : 'span'
 
-        this.elemProps.href = normal ? url : "#"
-        this.elemProps.title = name
-        this.elemProps.target = normal ? '_blank' : '_self'
-        this.elemProps.classList = "links"
-        this.elemProps.draggable = false
-        this.elemProps.innerHTML = 
-        `<span class="accent">${normal ? "~" : '&times;'}</span>
-        <span class="link-text">${name}</span>`
+        this.elemProps = {
+            href: normal ? url : "#",
+            title: name,
+            target: normal ? '_blank' : '_self',
+            classList: "links",
+            draggable: false,
+            innerHTML: `<span class="accent">${normal ? "~" : '&times;'}</span>
+            <span class="link-text">${name}</span>`
+
+        }
     }
     /**
      * get the link element
@@ -241,7 +246,21 @@ function initsettings() {
         })
     }
 
-    
+    //add links submit form
+    const addlink = document.getElementById('add-link')
+    addlink.onsubmit = (event) => {
+        event.preventDefault()
+        const formData = new FormData(addlink);
+        const entries = formData.entries();
+        const data = Object.fromEntries(entries);
+
+        addlink.querySelectorAll(`input.rb-input`).forEach(input => {input.value = ""}) //clear the values
+
+        link = new LinkElem(data["link-name"], data['link-url'], 'config')
+        let fewestChildrenColumnSelector = getFewestChildren(['#sortable-col1','#sortable-col2','#sortable-col3'])
+        console.log(fewestChildrenColumnSelector)
+        document.querySelector(fewestChildrenColumnSelector).appendChild(link.elem)
+    }
 
     console.log("sucessfully generated settings")
 }
@@ -261,6 +280,21 @@ function loadlinks(id, db, mode) {
         link = new LinkElem(val.name, val.url, mode)
         document.getElementById(id).appendChild(link.elem)
     }
+}
+
+/**
+ * pass an array of queryselectors, get the one with fewest children back
+ */
+function getFewestChildren(selectorArray) {
+    const children = selectorArray.map(selector => {
+        return {selector, children: document.querySelector(selector).children.length}
+    })
+
+    children.sort((a, b) => { //sort from smallest to biggest
+        return a.children - b.children
+    })
+
+    return children[0].selector;
 }
 
 
