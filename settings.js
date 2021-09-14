@@ -1,13 +1,13 @@
 //TODO update these settings' values when i load the json from localstorage (before generating load from localstorage)
-//update from localstorage here
 const settings = {
-    s:{
+    s:{ //TODO change this to an array maybe??
         TXT_TITLE: { title:"Settings",type:'heading' },
         connect: { title:`Connect columns`,desc:`connects link columns together`,type:'bool',key:'connect',classes:['connect',''] },
         compact: { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
         leftpic: { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
         tallpic: {title:`Tall left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
         slim: { title:`Slim container`,desc:`max width of container is now 32rem instaed of 40rem`,type:'bool',key:'slim',classes:['slim','']},
+        thicc: { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
         cols: { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
         verdana: { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
         TXT_HIDING: { title:"Hiding elements",type:'heading' },
@@ -46,6 +46,15 @@ const settings = {
             {name:"link 5",url:"#"},
         ]
     }
+}
+
+//update from localstorage here
+let ls_settings = localStorage.getItem('links')
+
+//this will only update links tho...
+if (typeof ls_settings !== 'undefined' && ls_settings !==  null) {
+    console.log("found data in localStorage, loading settings")
+    Object.assign(settings, {l: JSON.parse(ls_settings)}) //update the current settings object with the one from localstorage
 }
 
 /**
@@ -168,55 +177,6 @@ class SettingElem {
 }
 
 /**
- * creates a new Link element (initialization creates the dom element)
- */
-class LinkElem {
-    /**
-     * creates the link dom element.
-     * @param {String} name label of the link
-     * @param {String} url url/href of the link
-     * @param {'normal'|'config'} mode what type of links you need
-     */
-    constructor(name, url, mode) {
-        let normal = mode === 'normal'
-        /**
-         * some properties that will later get assigned to the element
-         * @type {Object}
-         */
-        this.elemProps = {} 
-
-        /**
-         * string to be passed into createElement, for normal mode it's a, for config it's span
-         */
-        this.elemStr = normal ? 'a' : 'span'
-
-        this.elemProps = {
-            href: url, //href don't work on span anyway
-            title: name,
-            target: normal ? '_blank' : '_self',
-            classList: "links",
-            draggable: false,
-            innerHTML: `<span class="accent">${normal ? "~" : '&times;'}</span>
-            <span class="link-text">${name}</span>`
-        }
-    }
-    /**
-     * get the link element
-     */
-    get elem() {
-        let w = document.createElement(this.elemStr)
-        Object.assign(w, this.elemProps)
-        w.querySelector('span.accent').onclick = () => {
-            if (window.confirm(`Really delete '${this.elemProps.title}'?`)) {
-                w.remove()
-            }
-        } //yeet the thing on span.accent onclick
-
-        return w
-    }
-}
-
-/**
  * initialize settings elements. only call after DOM init. only call once.
  */
 function initsettings() {
@@ -269,6 +229,7 @@ function initsettings() {
         document.querySelector(fewestChildrenColumnSelector).appendChild(link.elem)
     }
 
+    //serialize settings for links and  save them to localstorage
     document.getElementById('links-save').onclick = () => {
         let sortableElements = Sortables.map(s => s.el)
         let content = sortableElements.map(el => {
@@ -280,26 +241,27 @@ function initsettings() {
             col3: content[2]
         }
         console.log(finalobj)
+        Object.assign(settings, {l: finalobj})
+        localStorage.setItem('links', JSON.stringify(finalobj))
+
+        //yeet all the links
+        let linkstodel = document.querySelector('.colwrap').getElementsByClassName('links')
+        linkstodel = [...linkstodel]
+        linkstodel.forEach(link => link.remove());
+        initlinks() //load them again
+  
+        //save layout
+        let saveme = serializeContainer()
+        saveme = saveme.p
+        console.log(saveme)
+        localStorage.setItem('Container', JSON.stringify(saveme))
+
+        //save classlist
+        let classList = [...document.getElementById('container').classList].join(' ')
+        localStorage.setItem('classList', classList)
     }
 
     console.log("sucessfully generated settings")
-}
-
-/**
- * load links into an element. 
- * @param {String} id getelementbyid id for the column to insert to
- * @param {Object} db settigns.l.col1 for example
- * @param {'normal'|'config'} mode what type of link you need
- */
-function loadlinks(id, db, mode) {
-    for (let i = 0; i < Object.keys(db).length; i++) {
-        const key = Object.keys(db)[i];
-        const val = db[key]
-
-        let link = ''
-        link = new LinkElem(val.name, val.url, mode)
-        document.getElementById(id).appendChild(link.elem)
-    }
 }
 
 /**

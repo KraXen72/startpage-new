@@ -17,6 +17,12 @@
 /*slim*/
 .container.slim { --maxwidth: 32rem; }
 
+/*thicc*/
+.container.thicc { --maxwidth: 55rem; }
+
+/*thicc & slim - cancel each other out*/
+.container.thicc.slim { --maxwidth: 40rem; }
+
 /*connect*/
 .container.connect { --margin-col: 0px; }
 .container.connect .colwrap {
@@ -34,7 +40,7 @@
 }
 .container.connect .greeting {
 	background: transparent;
-	margin: 1rem;
+	margin: 0.6rem 1rem;
 	padding: 0;
 }
 .container.connect.nogreeting:not(.notitle) .col,
@@ -63,7 +69,7 @@
 }
 .container.verdana .links {
 	padding: 0;
-	margin: 0 1rem;
+	margin: 0 0 0 1rem ;
 }
 .container.verdana .title, 
 .container.verdana .search, 
@@ -77,8 +83,12 @@
 .container.verdana h1,
 .container.verdana h1.title {
 	font-family: "Segoe UI",Arial,sans-serif;
-	font-size: 30px;
-    font-weight: 500;
+	font-size: 36px;
+    font-weight: 400;
+	color: var(--main-text-color-secondary);
+}
+.container.verdana:not(.leftpic) .col {
+	row-gap: calc( var(--margin-row) / 2);
 }
 
 /*no search*/
@@ -94,9 +104,10 @@
 .container.nogreeting .greeting { display: none; } 
 
 /*leftpic*/
+.container.leftpic.nogreeting.nopic:not(.notitle) .first-col { border-top-left-radius: var(--border-radius); }
 .container.leftpic { /*by default 3 cols and search*/
 	grid-template-columns: min-content 3fr;
-	grid-template-rows: min-content minmax(var(--min-pic-height), 1fr);
+	grid-template-rows: min-content minmax(var(--min-pic-height-short), 1fr);
 
 	grid-template-areas: 
 	"search search"
@@ -109,7 +120,7 @@
 	width: auto;
 	height: 100%;
 	object-fit: cover;
-	object-position: center;
+	object-position: center 0;
 	max-height: var(--min-pic-height);
 	max-width: var(--min-pic-width);
 }
@@ -152,5 +163,5 @@
 
 /*tallpic*/
 .container.tallpic {
-	--min-pic-height: 358px;
+	--min-pic-height-short: var(--min-pic-height);
 }

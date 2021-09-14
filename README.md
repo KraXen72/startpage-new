@@ -1,13 +1,9 @@
-# startpage-new
+# rosebox startpage v2
 
-this is a simple startpage
-i created use HTML and CSS only
-you can costumize your theme or colors
-
-![preview](preview.png)
+preview coming soontm
 
 thanks to:
-[this startpage](https://github.com/WahyuHidayattz/startpage-new) for the original html & css only startpage
+[this startpage](https://github.com/WahyuHidayattz/startpage-new) for inspiration
 
 libraries used:
 [object-observer](https://github.com/gullerya/object-observer/blob/main/src/object-observer.js) to automatically update layout when object changes - [repo](https://github.com/gullerya/object-observer)

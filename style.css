@@ -29,8 +29,13 @@
   --margin-col: 10px;
   --margin-row: 10px;
 
-  --min-pic-height: 1fr;
-  --min-pic-width: 279.72px;
+  --pic-w-orig: 563px;
+  --pic-h-orig: 720px;
+  --pic-scale: 0.5;
+
+  --min-pic-height-short: 1fr;
+  --min-pic-height: calc( var(--pic-h-orig) * var(--pic-scale));
+  --min-pic-width: calc( var(--pic-w-orig) * var(--pic-scale));
 
 	--maxwidth: 40rem;
 }
@@ -54,6 +59,7 @@ body {
 	box-sizing: border-box;
 }*/
 .hidden {display:none}
+.flex {display: flex; align-items: center}
 
 /*settings*/
 #settings-screen {
@@ -69,6 +75,9 @@ body {
   padding: 1rem;
   background: var(--main-card-background);
   border-radius: var(--border-radius);
+}
+#setting-footer {
+  margin-top: 0.5rem;
 }
 .setting:not(.heading) {
   width: 100%;
@@ -156,7 +165,7 @@ body {
     "search"
     "colwrap";
   grid-template-columns: 3fr;
-  grid-template-rows: minmax(var(--min-pic-height), 1fr) 1fr 1fr;
+  grid-template-rows: minmax(var(--min-pic-height-short), 1fr) 1fr 1fr;
 
   width: 100%;
   max-width: var(--maxwidth);
@@ -175,6 +184,7 @@ header img {
   width: 100%;
   height: 200px;
   object-fit: cover;
+  object-position: 0 -40px;
 }
 
 /*serach*/
