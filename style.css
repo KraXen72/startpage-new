@@ -87,6 +87,23 @@ body {
   right: 0; 
   padding-bottom: 1rem;
 }
+#backup-title-span {
+  display: flex;
+  align-items: center;
+}
+#backup-title-span h1 {
+  flex-grow: 1;
+}
+#backup-close {
+  font-weight: bold;
+  font-size: 1rem;
+  position: relative !important; 
+  height: min-content;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 #setting-footer {
   margin-top: 0.5rem;
 }
@@ -287,7 +304,7 @@ header img {
 .accent { color: var(--main-accent); padding-right: 10px; }
 .jsoninp {width: 50%;}
 
-.toggle, .settings { /*small buttons*/
+.toggle, .settings, .smolbtn { /*small buttons*/
   padding: 5px;
   position: absolute;
   bottom: 0;

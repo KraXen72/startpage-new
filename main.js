@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     containerElem = document.getElementById('container')
 
     toggle.onclick = toggleImage
-    settbtn.onclick = toggleSettings
+    settbtn.onclick = () => {toggleElem('settings-screen')}
 
     let ls_classList = localStorage.getItem('classList')
 
@@ -193,8 +193,9 @@ function toggleImage() {
 }
 
 /**
- * toggle the visibility of settings screen
+ * toggle the visibility of an element
+ * @param {String} id id of the element to toggle
  */
-function toggleSettings() {
-    document.getElementById('settings-screen').classList.toggle('hidden')
+function toggleElem(id) {
+    document.getElementById(id).classList.toggle('hidden')
 }

@@ -38,7 +38,8 @@
 		</div>
 	</div>
 	<div id="backup-screen" class="hidden">
-		<h1 class="title setting-title">Backup</h1>
+		<span id="backup-title-span"><h1 class="title setting-title">Backup</h1><button class="rb-button smolbtn" id="backup-close">&times;</button></span>
+		
 		<p>Here you can import and export backups. They will get exported in json. Backups contain links and all settings.</p><br>
 		<span id="import-json"><input type="text" class="rb-input" id="import-json"><button class="rb-button">import backup</button></span>
 		<span id="export-json"><input type="text" class="rb-input" id="export-json"><button class="rb-button">export backup</button></span>
@@ -70,10 +71,10 @@
 
 	</div>
 
-	<button class="toggle incognito" id="toggle" aria-label="toggle image">
+	<button class="toggle incognito smolbtn" id="toggle" aria-label="toggle image">
 		&#9680;
 	</button>
-	<button class="settings incognito" id="settings" aria-label="open settings">
+	<button class="settings incognito smolbtn" id="settings" aria-label="open settings">
 		&#9881;
 	</button>
 </body>

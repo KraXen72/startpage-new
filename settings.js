@@ -265,6 +265,9 @@ function initsettings() {
         localStorage.setItem('classList', classList)
     }
 
+    document.getElementById('backup').onclick = () => {toggleElem('backup-screen')}
+    document.getElementById('backup-close').onclick = () => {toggleElem('backup-screen')}
+
     console.log("sucessfully generated settings")
 }
 
