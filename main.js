@@ -21,10 +21,10 @@ let ls_containerObj = localStorage.getItem('Container')
 
 //this will only update settings
 if (typeof ls_containerObj !== 'undefined' && ls_containerObj !==  null) {
-    console.log("found data in localStorage, loading Container ")
-    Object.assign(containerObj, {p: JSON.parse(ls_containerObj)}) //update the current container object with the one from localstorage
+    let parsed = JSON.parse(ls_containerObj)
+    console.log("found data in localStorage, loading Container: ", parsed)
+    Object.assign(containerObj, {p: parsed}) //update the current container object with the one from localstorage
 }
-console.log(containerObj)
 
 /**
  * Container is the main object for layout; if you change its props, the layout instantly updates.
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //this will only update settings
     if (typeof ls_classList !== 'undefined' && ls_classList !==  null) {
-        console.log("found data in localStorage, loading classList")
+        console.log("found data in localStorage, loading classList: ", ls_classList)
         containerElem.classList = ls_classList
     }
 

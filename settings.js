@@ -53,8 +53,9 @@ let ls_settings = localStorage.getItem('links')
 
 //this will only update links tho...
 if (typeof ls_settings !== 'undefined' && ls_settings !==  null) {
-    console.log("found data in localStorage, loading settings")
-    Object.assign(settings, {l: JSON.parse(ls_settings)}) //update the current settings object with the one from localstorage
+    let parsed = JSON.parse(ls_settings)
+    console.log("found data in localStorage, loading settings: ", parsed)
+    Object.assign(settings, {l: parsed}) //update the current settings object with the one from localstorage
 }
 
 /**
@@ -165,6 +166,8 @@ class SettingElem {
         w.id = `settingElem-${this.props.key}`
         w.classList.add(this.type) //add bool or title etc
         w.innerHTML = this.HTML
+
+        if (this.type === 'sel') { w.querySelector('select').value = this.props.value } //select value applying is fucky so like fix it i guess
 
         //add an eventlistener if the setting is mutable
         if (this.mutable) {

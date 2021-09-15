@@ -69,7 +69,7 @@
 }
 .container.verdana .links {
 	padding: 0;
-	margin: 0 0 0 1rem ;
+	/*margin: 0 0 0 1rem ;*/
 }
 .container.verdana .title, 
 .container.verdana .search, 
@@ -115,14 +115,38 @@
 
 	max-width: calc(var(--maxwidth) + var(--min-pic-width))
 }
-.container.leftpic header { max-width: var(--min-pic-width); }
+.container.leftpic header { 
+	max-width: var(--min-pic-width);
+	max-height: var(--min-pic-height);
+}
 .container.leftpic header img {
 	width: auto;
 	height: 100%;
 	object-fit: cover;
 	object-position: center 0;
-	max-height: var(--min-pic-height);
+
+	min-height: var(--min-pic-height);
 	max-width: var(--min-pic-width);
+}
+
+/*leftpic connect requires a wholeass separate category cause its actin up*/
+.container.leftpic.connect .colwrap,
+.container.leftpic.connect header {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+}
+/*add padding and margin to the greeting*/
+.container.leftpic.connect h1.title.greeting {
+	padding: calc( var(--spacer) / 2 ) var(--spacer) calc( var(--spacer) / 2 ) var(--spacer);
+	margin: var(--margin-row) var(--margin-col);
+}
+/*add padding to the columns*/
+.container.leftpic.connect .colwrap .col:first-of-type {
+	padding: 0 0 var(--spacer) var(--spacer);
+}
+.container.leftpic.connect .colwrap .col:last-of-type {
+	padding: 0 var(--spacer) var(--spacer) 0;
 }
 
 /*connected left pic - unround stuff*/

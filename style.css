@@ -28,6 +28,7 @@
 
   --margin-col: 10px;
   --margin-row: 10px;
+  --spacer: 1.5rem;
 
   --pic-w-orig: 563px;
   --pic-h-orig: 720px;
@@ -38,6 +39,7 @@
   --min-pic-width: calc( var(--pic-w-orig) * var(--pic-scale));
 
 	--maxwidth: 40rem;
+  font-size: 16px;
 }
 
 
@@ -69,12 +71,14 @@ body {
 
   max-width: 32rem;
   width: calc( 100% - 2rem);
-  height: calc(100% - 8rem);
+  height: calc(100% - 4rem);
 
-  margin: 4rem 1rem;
-  padding: 1rem;
+  margin: 2rem 1rem;
+  padding: 0 1rem;
   background: var(--main-card-background);
   border-radius: var(--border-radius);
+
+  overflow-y: auto;
 }
 #setting-footer {
   margin-top: 0.5rem;
@@ -115,6 +119,7 @@ body {
   grid-template: 1fr / repeat(3, 1fr);
   grid-template-areas:
   "col1 col2 col3";
+  column-gap: 0.5rem;
 }
 .sortable-col#sortable-col1 {grid-area:"col1"}
 .sortable-col#sortable-col2 {grid-area:"col2"}
@@ -252,20 +257,23 @@ header img {
   background-color: var(--main-accent);
   font-weight: 800;
   color: white;
+  height: min-content;
 }
-.col a {
+.col .links {
   padding: 0.5rem 1rem;
   text-decoration: none;
   color: var(--main-text-color-secondary);
 	cursor: pointer;
+
+  display: flex;
+  justify-content: flex-start;
 }
-.col a:hover {
+.col .links:hover {
   opacity: 0.7;
 	transition: opacity 0.1s;
 }
 
 .accent { color: var(--main-accent); padding-right: 10px; }
-span.accent {min-width: 25px ;}
 .jsoninp {width: 50%;}
 
 .toggle, .settings { /*small buttons*/
