@@ -64,7 +64,7 @@ body {
 .flex {display: flex; align-items: center}
 
 /*settings*/
-#settings-screen {
+#settings-screen, #backup-screen {
   position: absolute;
   top: 0;
   left: 0;
@@ -79,6 +79,13 @@ body {
   border-radius: var(--border-radius);
 
   overflow-y: auto;
+}
+#backup-screen {
+  height: min-content;
+  left: initial;
+  max-height: calc(100% - 4rem);
+  right: 0; 
+  padding-bottom: 1rem;
 }
 #setting-footer {
   margin-top: 0.5rem;
@@ -111,6 +118,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#import-json, #export-json {
+  width: 100%;
+  display: flex;
 }
 
 /*settings link stuff*/

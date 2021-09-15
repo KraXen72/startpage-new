@@ -135,6 +135,7 @@
 	padding: 0;
 	margin: 0;
 	height: 100%;
+	max-height: var(--min-pic-height-short);
 }
 /*add padding and margin to the greeting*/
 .container.leftpic.connect h1.title.greeting {

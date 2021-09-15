@@ -5,7 +5,7 @@ const settings = {
         connect: { title:`Connect columns`,desc:`connects link columns together`,type:'bool',key:'connect',classes:['connect',''] },
         compact: { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
         leftpic: { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
-        tallpic: {title:`Tall left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
+        tallpic: {title:`Portrait left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
         slim: { title:`Slim container`,desc:`max width of container is now 32rem instaed of 40rem`,type:'bool',key:'slim',classes:['slim','']},
         thicc: { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
         cols: { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
@@ -93,6 +93,7 @@ class SettingElem {
          * @type {Boolean}
          */
         this.mutable = false
+
 
         /**
          * innerHTML for settingElement

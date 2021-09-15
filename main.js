@@ -27,8 +27,9 @@ if (typeof ls_containerObj !== 'undefined' && ls_containerObj !==  null) {
 }
 
 /**
- * Container is the main object for layout; if you change its props, the layout instantly updates.
- */
+* Container is the main object for layout; if you change its props, the layout instantly updates.
+*/
+
 const Container = Observable.from(containerObj)
 Container.observe(changes => {
     changes.forEach(change => {
@@ -98,7 +99,7 @@ Container.observe(changes => {
         this.elemProps = {
             href: url, //href don't work on span anyway
             title: name,
-            target: normal ? '_blank' : '_self',
+            target: '_self',//normal ? '_blank' : '_self',
             classList: "links",
             draggable: false,
             innerHTML: `<span class="accent">${normal ? "~" : '&times;'}</span>
