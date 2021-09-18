@@ -11,7 +11,7 @@
 	*/
 	/*rosebox*/
 	
-	--main-background: #232323;
+	--main-background: #222222;
 	--main-card-background: #262626;
 	--main-text-color: rgba(255, 255, 255, 0.8);
 	--main-text-color-secondary: #a3a5aa;
@@ -136,7 +136,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-#import-json, #export-json {
+.impexp-span {
   width: 100%;
   display: flex;
 }

@@ -47,6 +47,7 @@ const settings = {
         ]
     }
 }
+var Sortables = []
 
 //update from localstorage here
 let ls_settings = localStorage.getItem('links')
@@ -204,7 +205,7 @@ function initsettings() {
     
     //generate sortable links
     //load links into columns - repeat once for every column
-    let Sortables = []
+    Sortables = []
     for (let i = 0; i < Object.keys(settings.l).length; i++) {
         loadlinks(`sortable-col${i+1}`, settings.l[`col${i+1}`], 'config')
         let col = document.getElementById(`sortable-col${i+1}`)
@@ -265,8 +266,10 @@ function initsettings() {
         localStorage.setItem('classList', classList)
     }
 
+    //backup
     document.getElementById('backup').onclick = () => {toggleElem('backup-screen')}
     document.getElementById('backup-close').onclick = () => {toggleElem('backup-screen')}
+    document.getElementById('export-json').onclick = () => {exportJson()}
 
     console.log("sucessfully generated settings")
 }
@@ -297,5 +300,30 @@ function serializeSortable(SortableElem) {
         return {name: span.querySelector('.link-text').textContent, url: span.href}
     })
     return content
+}
+
+/**
+ * serialize links, container and classList, stringify and fill in the export input
+ */
+function exportJson() {
+    let exportObj = { links: {}, Container: {}, classList: "" }
+
+    //add links
+    let content = Sortables.map(s => s.el).map(el => serializeSortable(el))
+    exportObj.links = {
+        col1: content[0],
+        col2: content[1],
+        col3: content[2]
+    }
+
+    //add settings/Container
+    let saveme = serializeContainer()
+    saveme = saveme.p
+    exportObj.Container = saveme
+
+    //add classlist
+    exportObj.classList = [...document.getElementById('container').classList].join(' ')
+
+    document.getElementById('export-json').previousElementSibling.value = JSON.stringify(exportObj)
 }
 
