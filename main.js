@@ -35,7 +35,7 @@ Container.observe(changes => {
     changes.forEach(change => {
         if (change.path[0] === "p") {
             key = change.path[1]
-            //console.log(`detected ${change.type} in '${key}': `, change)
+            console.log(`detected ${change.type} in '${key}': `, change)
 
             if (key === "cols") {
                 //if its not 2 or 3 just dont change anything
@@ -198,4 +198,22 @@ function toggleImage() {
  */
 function toggleElem(id) {
     document.getElementById(id).classList.toggle('hidden')
+}
+
+/**
+ * show and element and then fade it away
+ * @param {String} query document.querySelector for element to blink
+ */
+ function blinkElem(query, dec) {
+    let elem = document.querySelector(query)
+    elem.classList.add('fade')
+    elem.classList.remove('hidden')
+    setTimeout(() => {elem.style.opacity = 0}, 1)
+    
+
+    setTimeout(() => {
+        elem.classList.add('hidden')
+        elem.classList.remove('fade');
+        elem.style.opacity = 1
+    }, 2000)
 }

@@ -220,6 +220,7 @@ function initsettings() {
 
     //serialize settings for links and  save them to localstorage
     document.getElementById('links-save').onclick = () => {
+        blinkElem("#savedmsg")
         let sortableElements = Sortables.map(s => s.el)
         let content = sortableElements.map(el => {
             return serializeSortable(el)
@@ -335,6 +336,3 @@ function importJson() {
     }
 
 }
-
-
-

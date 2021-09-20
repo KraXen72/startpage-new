@@ -184,6 +184,14 @@ body {
 #link-add-bar {
   display: flex;
 }
+#savedmsg {
+  float: right;
+  color: gray;
+  font-weight: bold;
+}
+.fade {
+  transition: opacity 2s;
+}
 
 .sortable-col .links-ghost {
   background-color: var(--cyan);
