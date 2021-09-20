@@ -5,10 +5,10 @@ const settings = {
         connect: { title:`Connect columns`,desc:`connects link columns together`,type:'bool',key:'connect',classes:['connect',''] },
         compact: { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
         leftpic: { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
-        tallpic: {title:`Portrait left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
+        tallpic: { title:`Portrait left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
         slim: { title:`Slim container`,desc:`max width of container is now 32rem instaed of 40rem`,type:'bool',key:'slim',classes:['slim','']},
         thicc: { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
-        cols: { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
+        cols: { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',optType: Number, opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
         verdana: { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
         TXT_HIDING: { title:"Hiding elements",type:'heading' },
         nosearch: { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
@@ -65,42 +65,20 @@ if (typeof ls_settings !== 'undefined' && ls_settings !==  null) {
 class SettingElem {
     //s-update is the class for element to watch
     constructor (props) {
-        /**
-         * is the key to get checked when writing an update, for checkboxes it's checked, for selects its value etc. 
-         * @type {String} 
-         */
+        /**@type {String} is the key to get checked when writing an update, for checkboxes it's checked, for selects its value etc.*/
         this.updateKey = ''
-
-        /**
-         * is the eventlistener to use. for checkbox its be onclick, for select its be onchange etc.
-         * @type {String}
-         */
+        /**@type {String} is the eventlistener to use. for checkbox its be onclick, for select its be onchange etc. */
         this.updateMethod = ''
-
-        /**
-         * save the props from constructor to this class (instance)
-         * @type {Object}
-         */
+        /** @type {Object} save the props from constructor to this class (instance) */
         this.props = props
-
-        /**
-         * type of this settingElem, can be {'bool' | 'sel' | 'heading'}
-         * @type {String} 
-         */
+        /** @type {String} type of this settingElem, can be {'bool' | 'sel' | 'heading'} */
         this.type = props.type
-
-        /**
-         * if this setting actually changes something and can be updated. titles are immutable
-         * @type {Boolean}
-         */
+        /** @type {Boolean} if this setting actually changes something and can be updated. titles are immutable */
         this.mutable = false
-
-
-        /**
-         * innerHTML for settingElement
-         * @type {String}
-         */
+        /** @type {String} innerHTML for settingElement */
         this.HTML = ''
+        /** @type {Number | String} (only for 'sel' type) if Number, parseInt before assigning to Container */
+        this.optType = ''
 
         switch (props.type) {
             case 'bool':
@@ -133,6 +111,7 @@ class SettingElem {
                 this.mutable = true
                 this.updateKey = `value`
                 this.updateMethod = 'onchange'
+                this.optType = props.optType
                 break;
             default:
                 this.HTML = `<span class="setting-title">${props.title}</span><span>Unknown setting type</span>`
@@ -150,8 +129,13 @@ class SettingElem {
         
         //console.log(`dry run: would update '${this.props.key}' to '${value}'`)
         if (callback === 'normal') {
-            Container.p[this.props.key] = value //update the main container object that is bound to layout
-        } else {
+            //update the main container object that is bound to layout
+            if (this.optType !== '' && this.optType === Number) {
+                Container.p[this.props.key] = parseInt(value) 
+            } else {
+                Container.p[this.props.key] = value
+            }
+        } else { //this adds support for custom callbacks (custom settings)
             callback()
         }
         
@@ -269,7 +253,8 @@ function initsettings() {
     //backup
     document.getElementById('backup').onclick = () => {toggleElem('backup-screen')}
     document.getElementById('backup-close').onclick = () => {toggleElem('backup-screen')}
-    document.getElementById('export-json').onclick = () => {exportJson()}
+    document.getElementById('export-json').onclick = exportJson
+    document.getElementById('import-json').onclick = importJson
 
     console.log("sucessfully generated settings")
 }
@@ -306,7 +291,7 @@ function serializeSortable(SortableElem) {
  * serialize links, container and classList, stringify and fill in the export input
  */
 function exportJson() {
-    let exportObj = { links: {}, Container: {}, classList: "" }
+    let exportObj = { links: {}, Container: {}, classList: "", type: "valid-startpage-backup" }
 
     //add links
     let content = Sortables.map(s => s.el).map(el => serializeSortable(el))
@@ -326,4 +311,30 @@ function exportJson() {
 
     document.getElementById('export-json').previousElementSibling.value = JSON.stringify(exportObj)
 }
+
+/**
+ * import a valid string (stringified object) as settings + links, save to localstorage & refresh
+ */
+function importJson() {
+    let input = document.getElementById('import-json').previousElementSibling
+    try {
+        let val = JSON.parse(input.value)
+        if (val.type === "valid-startpage-backup") {
+            localStorage.setItem('links', JSON.stringify(val.links))
+            localStorage.setItem('Container', JSON.stringify(val.Container))
+            localStorage.setItem('classList', val.classList)
+
+            window.location.reload()
+        } else {
+            throw "not a valid backup";
+        }
+    } catch(e) {
+        console.error(e)
+        alert("not a valid backup !")
+        input.value = ""
+    }
+
+}
+
+
 
