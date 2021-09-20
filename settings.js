@@ -1,7 +1,7 @@
 //TODO update these settings' values when i load the json from localstorage (before generating load from localstorage)
 const settings = {
     s:{ //TODO change this to an array maybe??
-        TXT_TITLE: { title:"Settings",type:'heading' },
+        TXT_TITLE: { title:"Settings",type:'heading',key:"settingTitle" },
         connect: { title:`Connect columns`,desc:`connects link columns together`,type:'bool',key:'connect',classes:['connect',''] },
         compact: { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
         leftpic: { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
@@ -10,7 +10,7 @@ const settings = {
         thicc: { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
         cols: { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',optType: Number, opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
         verdana: { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
-        TXT_HIDING: { title:"Hiding elements",type:'heading' },
+        TXT_HIDING: { title:"Hiding elements",type:'heading',key:"hidingTitle" },
         nosearch: { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
         nopic: { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
         notitle: { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
@@ -45,6 +45,9 @@ const settings = {
             {name:"link 4",url:"#"},
             {name:"link 5",url:"#"},
         ]
+    },
+    m: { //misc
+        incognito: false,
     }
 }
 var Sortables = []
@@ -79,6 +82,8 @@ class SettingElem {
         this.HTML = ''
         /** @type {Number | String} (only for 'sel' type) if Number, parseInt before assigning to Container */
         this.optType = ''
+        /** @type {Function | 'misc' | 'normal'} custom callback for update function. 'misc' is for misc settings if nothing then default is 'normal' */
+        this.updateCallback = props.updateCallback || 'normal'
 
         switch (props.type) {
             case 'bool':
@@ -135,6 +140,9 @@ class SettingElem {
             } else {
                 Container.p[this.props.key] = value
             }
+            //saveSettings()
+        } else if (callback === 'misc') {
+            settings.m[this.props.key] = value
         } else { //this adds support for custom callbacks (custom settings)
             callback()
         }
@@ -158,7 +166,7 @@ class SettingElem {
         //add an eventlistener if the setting is mutable
         if (this.mutable) {
             w[this.updateMethod] = () => {
-                this.update = {elem: w, callback: 'normal'}
+                this.update = {elem: w, callback: this.updateCallback}
             }
         }
         return w //return the element
@@ -186,6 +194,9 @@ function initsettings() {
         let set = new SettingElem(val)
         document.getElementById("layout-settings").appendChild(set.elem)
     }
+
+    let incognito = new SettingElem({ title:`Make settings & toggle buttons incognito`,desc:'make the small settings & toggle buttons invisible & only appear on hover',key:'incognito',type:'bool',classes:['incognito',''], updateCallback: 'misc' })
+    document.getElementById('settingElem-hidingTitle').prepend(incognito.elem)
     
     //generate sortable links
     //load links into columns - repeat once for every column
@@ -219,37 +230,7 @@ function initsettings() {
     }
 
     //serialize settings for links and  save them to localstorage
-    document.getElementById('links-save').onclick = () => {
-        blinkElem("#savedmsg")
-        let sortableElements = Sortables.map(s => s.el)
-        let content = sortableElements.map(el => {
-            return serializeSortable(el)
-        })
-        let finalobj = {
-            col1: content[0],
-            col2: content[1],
-            col3: content[2]
-        }
-        console.log(finalobj)
-        Object.assign(settings, {l: finalobj})
-        localStorage.setItem('links', JSON.stringify(finalobj))
-
-        //yeet all the links
-        let linkstodel = document.querySelector('.colwrap').getElementsByClassName('links')
-        linkstodel = [...linkstodel]
-        linkstodel.forEach(link => link.remove());
-        initlinks() //load them again
-  
-        //save layout
-        let saveme = serializeContainer()
-        saveme = saveme.p
-        console.log(saveme)
-        localStorage.setItem('Container', JSON.stringify(saveme))
-
-        //save classlist
-        let classList = [...document.getElementById('container').classList].join(' ')
-        localStorage.setItem('classList', classList)
-    }
+    document.getElementById('links-save').onclick = saveSettings
 
     //backup
     document.getElementById('backup').onclick = () => {toggleElem('backup-screen')}
@@ -258,6 +239,39 @@ function initsettings() {
     document.getElementById('import-json').onclick = importJson
 
     console.log("sucessfully generated settings")
+}
+
+/**
+ * saves settings in localstorage. requires settings to be initialized and Sortables array to be populated.
+ */
+function saveSettings() {
+    //save links
+    let content = Sortables.map(s => s.el).map(el => serializeSortable(el))
+    let finalobj = {
+        col1: content[0],
+        col2: content[1],
+        col3: content[2]
+    }
+    Object.assign(settings, {l: finalobj})
+    localStorage.setItem('links', JSON.stringify(finalobj))
+
+    //yeet all the links
+    let linkstodel = document.querySelector('.colwrap').getElementsByClassName('links')
+    linkstodel = [...linkstodel]
+    linkstodel.forEach(link => link.remove());
+    initlinks() //load them again
+
+    //save layout
+    let saveme = serializeContainer()
+    saveme = saveme.p
+    localStorage.setItem('Container', JSON.stringify(saveme))
+
+    //save classlist
+    let classList = [...document.getElementById('container').classList].join(' ')
+    localStorage.setItem('classList', classList)
+
+    console.log('saved')
+    blinkElem("#savedmsg") //show saved message
 }
 
 /**

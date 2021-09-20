@@ -190,7 +190,10 @@ body {
   font-weight: bold;
 }
 .fade {
-  transition: opacity 2s;
+  transition: opacity 3s ease-in-out;
+}
+.invis {
+  opacity: 0;
 }
 
 .sortable-col .links-ghost {

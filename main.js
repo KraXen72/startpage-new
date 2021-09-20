@@ -35,7 +35,7 @@ Container.observe(changes => {
     changes.forEach(change => {
         if (change.path[0] === "p") {
             key = change.path[1]
-            console.log(`detected ${change.type} in '${key}': `, change)
+            //console.log(`detected ${change.type} in '${key}': `, change)
 
             if (key === "cols") {
                 //if its not 2 or 3 just dont change anything
@@ -189,7 +189,7 @@ function serializeContainer() {
  */
 function toggleImage() {
     document.getElementById('settingElem-nopic').querySelector('.s-update').click()
-    document.getElementById('links-save').click()
+    saveSettings()
 }
 
 /**
@@ -205,15 +205,13 @@ function toggleElem(id) {
  * @param {String} query document.querySelector for element to blink
  */
  function blinkElem(query, dec) {
+    let resetTimeout
     let elem = document.querySelector(query)
-    elem.classList.add('fade')
-    elem.classList.remove('hidden')
-    setTimeout(() => {elem.style.opacity = 0}, 1)
-    
 
+    elem.classList.remove('fade')
+    elem.classList.remove('invis')
     setTimeout(() => {
-        elem.classList.add('hidden')
-        elem.classList.remove('fade');
-        elem.style.opacity = 1
-    }, 2000)
+        elem.classList.add('fade')
+        elem.classList.add('invis')
+    },0)
 }
