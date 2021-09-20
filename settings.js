@@ -54,12 +54,18 @@ var Sortables = []
 
 //update from localstorage here
 let ls_settings = localStorage.getItem('links')
+let ls_misc = localStorage.getItem('miscSettings')
 
-//this will only update links tho...
+//this will only update links & misc settings
 if (typeof ls_settings !== 'undefined' && ls_settings !==  null) {
     let parsed = JSON.parse(ls_settings)
     console.log("found data in localStorage, loading settings: ", parsed)
     Object.assign(settings, {l: parsed}) //update the current settings object with the one from localstorage
+}
+if (typeof ls_misc !== 'undefined' && ls_misc !==  null) {
+    let parsed = JSON.parse(ls_misc)
+    console.log("found data in localStorage, loading miscSettings: ", parsed)
+    Object.assign(settings, {m: parsed}) //update the current settings object with the one from localstorage
 }
 
 /**
@@ -142,6 +148,7 @@ class SettingElem {
             }
             //saveSettings()
         } else if (callback === 'misc') {
+            //misc settings
             settings.m[this.props.key] = value
         } else { //this adds support for custom callbacks (custom settings)
             callback()
@@ -195,7 +202,8 @@ function initsettings() {
         document.getElementById("layout-settings").appendChild(set.elem)
     }
 
-    let incognito = new SettingElem({ title:`Make settings & toggle buttons incognito`,desc:'make the small settings & toggle buttons invisible & only appear on hover',key:'incognito',type:'bool',classes:['incognito',''], updateCallback: 'misc' })
+    //misc settings? - TODO put these into settings object
+    let incognito = new SettingElem({ title:`Make settings & toggle buttons incognito`,desc:'make the small settings & toggle buttons invisible & only appear on hover',key:'incognito',type:'bool',classes:['incognito',''], updateCallback: 'misc', value: settings.m.incognito })
     document.getElementById('settingElem-hidingTitle').prepend(incognito.elem)
     
     //generate sortable links
@@ -269,6 +277,9 @@ function saveSettings() {
     //save classlist
     let classList = [...document.getElementById('container').classList].join(' ')
     localStorage.setItem('classList', classList)
+
+    //save misc
+    localStorage.setItem('miscSettings', JSON.stringify(settings.m))
 
     console.log('saved')
     blinkElem("#savedmsg") //show saved message
