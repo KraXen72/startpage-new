@@ -177,10 +177,12 @@ body {
   background-color: var(--main-card-background);
 
   cursor: grab;
+  user-select: none;
 }
 .sortable-col .links .accent {
   padding-right: 0;
   cursor: pointer;
+  user-select: none;
 }
 .sortable-col .links .accent:hover {
   color: var(--red);
@@ -232,6 +234,7 @@ header {
   border-radius: var(--border-radius);
   overflow: hidden;
   border: var(--border-size) solid var(--main-background);
+  max-height: 200px;
 }
 header:hover { border: var(--border-size) solid var(--green); }
 header img {
@@ -239,6 +242,7 @@ header img {
   height: 200px;
   object-fit: cover;
   object-position: 0 -40px;
+  user-select: none;
 }
 
 /*serach*/
@@ -272,6 +276,8 @@ header img {
 	margin: var(--margin-row) var(--margin-col);
 	padding: var(--margin-col);
   font-weight: 800;
+
+  user-select: none;
 }
 
 /*columns*/
@@ -301,18 +307,23 @@ header img {
 
 .col:hover { border: var(--border-size) solid var(--green); }
 .col .title {
-  padding: 0.8rem 1rem;
-  /*background-color: #536785;*/
-  background-color: var(--main-accent);
-  font-weight: 800;
-  color: white;
   height: min-content;
+  background: transparent;
+  color: var(--main-accent);
+
+  padding: 0.3rem 1rem;
+  font-weight: 800;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .col .links {
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   text-decoration: none;
   color: var(--main-text-color-secondary);
 	cursor: pointer;
+  user-select: none;
 
   display: flex;
   justify-content: flex-start;
@@ -321,8 +332,15 @@ header img {
   opacity: 0.7;
 	transition: opacity 0.1s;
 }
+.col .links * {
+  user-select: none;
+}
 
-.accent { color: var(--main-accent); padding-right: 10px; }
+.accent { 
+  color: var(--main-accent); 
+  padding-right: 10px; 
+  user-select: none;
+}
 .jsoninp {width: 50%;}
 
 .toggle, .settings, .smolbtn { /*small buttons*/
