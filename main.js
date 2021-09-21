@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     containerElem = document.getElementById('container')
 
     toggle.onclick = toggleImage
-    settbtn.onclick = () => {toggleElem('settings-screen')}
+    settbtn.onclick = () => {toggleElem('settings-screen-left'); toggleElem('settings-screen-right')}
 
     let ls_classList = localStorage.getItem('classList')
 
@@ -205,7 +205,6 @@ function toggleElem(id) {
  * @param {String} query document.querySelector for element to blink
  */
  function blinkElem(query, dec) {
-    let resetTimeout
     let elem = document.querySelector(query)
 
     elem.classList.remove('fade')

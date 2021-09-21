@@ -4,6 +4,7 @@
 	/*
   --main-background: #1e222a;
   --main-card-background: #282c34;
+  --main-card-bg-secondary: #363b46;
   --main-text-color: #dddddd;
   --main-text-color-secondary: #aaaaaa;
   --main-accent: #536785;
@@ -13,6 +14,7 @@
 	
 	--main-background: #222222;
 	--main-card-background: #262626;
+  --main-card-bg-secondary: #303030;
 	--main-text-color: rgba(255, 255, 255, 0.8);
 	--main-text-color-secondary: #a3a5aa;
   --main-accent: #a57562;
@@ -60,11 +62,11 @@ body {
 /** {
 	box-sizing: border-box;
 }*/
-.hidden {display:none}
+.hidden {display:none !important;}
 .flex {display: flex; align-items: center}
 
 /*settings*/
-#settings-screen, #backup-screen {
+#settings-screen-left, #settings-screen-right {
   position: absolute;
   top: 0;
   left: 0;
@@ -79,13 +81,15 @@ body {
   border-radius: var(--border-radius);
 
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
-#backup-screen {
-  height: min-content;
+#settings-screen-left #layout-settings {
+  flex-grow: 1;
+}
+#settings-screen-right {
   left: initial;
-  max-height: calc(100% - 4rem);
   right: 0; 
-  padding-bottom: 1rem;
 }
 #backup-title-span {
   display: flex;
@@ -105,7 +109,13 @@ body {
   align-items: center;
 }
 #setting-footer {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  background: var(--main-card-bg-secondary);
+  padding: 0.7rem;
+  border-radius: var(--border-radius);
+  position: relative;
+  bottom: 0.7rem;
+  position: sticky;
 }
 .setting:not(.heading) {
   width: 100%;

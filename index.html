@@ -14,37 +14,39 @@
 </head>
 
 <body>
-	<div id="settings-screen" class="hidden">
+	<div id="settings-screen-left" class="hidden">
 		<div id="layout-settings"></div>
-		<div id="link-settings" draggable="false">
-			<span class="flex"><h1 class="setting-title" draggable="false">Links </h1>&nbsp;&nbsp;&nbsp;(drag & drop to reorder)&nbsp;&nbsp;&nbsp;(recommended max/col is 8)</span>
-			<div id="link-add-bar">
-				<form id="add-link">
-					<input type="text" class="rb-input" name="link-name" autocomplete="off" required placeholder="name" id="add-link-name">
-					<input type="text" class="rb-input" name="link-url" autocomplete="off" required placeholder="url" id="add-link-url">
-					<input type="submit" value="add link" class="rb-button">
-				</form>
-			</div>
-			<br>
-			<div id="sortable-colwrap" draggable="false">
-				<div class="sortable-col" draggable="false" id="sortable-col1"></div>
-				<div class="sortable-col" draggable="false" id="sortable-col2"></div>
-				<div class="sortable-col" draggable="false" id="sortable-col3"></div>
-			</div>
-		</div>
 		<div id="setting-footer">
-			<button class="rb-button" id="links-save">SAVE</button>
-			<button class="rb-button" id="backup">BACKUP/IMPORT</button>
+			<button class="rb-button hook-save-btn">SAVE</button>
 			<span id="savedmsg" class="invis">Saved!</span>
 		</div>
 	</div>
-	<div id="backup-screen" class="hidden">
-		<span id="backup-title-span"><h1 class="title setting-title">Backup</h1><button class="rb-button smolbtn" id="backup-close">&times;</button></span>
-		
-		<p>Here you can import and export backups. They will get exported in json. Backups contain links and all settings.</p><br>
-		<span class="impexp-span"><input type="text" class="rb-input impexp-span"><button class="rb-button" id="import-json">import backup</button></span>
-		<span class="impexp-span"><input type="text" class="rb-input impexp-span"><button class="rb-button" id="export-json">export backup</button></span>
-
+	<div id="settings-screen-right" class="hidden">
+		<div id="backup-screen">
+			<span id="backup-title-span"><h1 class="title setting-title">Backup</h1><!--<button class="rb-button smolbtn" id="backup-close">&times;</button>--></span>
+			
+			<p>Here you can import and export backups. They will get exported in json. Backups contain links and all settings.</p><br>
+			<span class="impexp-span"><input type="text" class="rb-input impexp-span"><button class="rb-button" id="import-json">import backup</button></span>
+			<span class="impexp-span"><input type="text" class="rb-input impexp-span"><button class="rb-button" id="export-json">export backup</button></span>
+		</div>
+		<div id="links-screen">
+			<div id="link-settings" draggable="false">
+				<span class="flex"><h1 class="setting-title" draggable="false">Links </h1>&nbsp;&nbsp;(drag & drop to reorder)&nbsp;&nbsp;(recommend. max 8/col)&nbsp;&nbsp;(hit save after)</span>
+				<div id="link-add-bar">
+					<form id="add-link">
+						<input type="text" class="rb-input" name="link-name" autocomplete="off" required placeholder="name" id="add-link-name">
+						<input type="text" class="rb-input" name="link-url" autocomplete="off" required placeholder="url" id="add-link-url">
+						<input type="submit" value="add link" class="rb-button">
+					</form>
+				</div>
+				<br>
+				<div id="sortable-colwrap" draggable="false">
+					<div class="sortable-col" draggable="false" id="sortable-col1"></div>
+					<div class="sortable-col" draggable="false" id="sortable-col2"></div>
+					<div class="sortable-col" draggable="false" id="sortable-col3"></div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div id="container" class="container cols-3 nogreeting">
 		<header><img src="yahallo.png" /></header>

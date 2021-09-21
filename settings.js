@@ -1,22 +1,27 @@
 //TODO update these settings' values when i load the json from localstorage (before generating load from localstorage)
 const settings = {
-    s:{ //TODO change this to an array maybe??
-        TXT_TITLE: { title:"Settings",type:'heading',key:"settingTitle" },
-        connect: { title:`Connect columns`,desc:`connects link columns together`,type:'bool',key:'connect',classes:['connect',''] },
-        compact: { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
-        leftpic: { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
-        tallpic: { title:`Portrait left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
-        slim: { title:`Slim container`,desc:`max width of container is now 32rem instaed of 40rem`,type:'bool',key:'slim',classes:['slim','']},
-        thicc: { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
-        cols: { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',optType: Number, opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
-        verdana: { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
-        TXT_HIDING: { title:"Hiding elements",type:'heading',key:"hidingTitle" },
-        nosearch: { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
-        nopic: { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
-        notitle: { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
-        nogreeting: { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] },
-        
-    },
+    s:[ //TODO change this to an array maybe??
+        { title:"Settings",type:'heading',key:"settingTitle" },
+        { title:`Connect columns`,desc:`connects link columns together`,type:'bool',key:'connect',classes:['connect',''] },
+        { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
+        { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
+        { title:`Portrait left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
+        { title:`Slim container`,desc:`max width of container is now 32rem instaed of 40rem`,type:'bool',key:'slim',classes:['slim','']},
+        { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
+        { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',optType: Number, opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
+        { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
+        { title:`Misc`,type:'heading',key:"miscTitle"},
+        { title:`Make settings & toggle buttons incognito`,desc:'make the small settings & toggle buttons invisible & only appear on hover',key:'incognito',type:'bool',classes:['incognito',''], updateCallback: 'misc' },
+        { title:`Greeting text:`,key:'greeting',type:'text',updateCallback: 'misc',value: 'heya'},
+        { title:`1st column title:`,key:'col1Title',type:'text',updateCallback: 'misc', value: 'links' },
+        { title:`2nd column title:`,key:'col2Title',type:'text',updateCallback: 'misc', value: 'social' },
+        { title:`3rd column title:`,key:'col3Title',type:'text',updateCallback: 'misc', value: 'other' },
+        { title:"Hiding elements",type:'heading',key:"hidingTitle" },
+        { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
+        { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
+        { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
+        { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] }
+    ],
     l: { //links
         col1: [
             {name:"gmail",url:"https://mail.google.com/mail/u/0/#inbox"},
@@ -48,6 +53,10 @@ const settings = {
     },
     m: { //misc
         incognito: false,
+        greeting: 'heya',
+        col1Title: 'links',
+        col2Title: 'social',
+        col3Title: 'other'
     }
 }
 var Sortables = []
@@ -60,12 +69,12 @@ let ls_misc = localStorage.getItem('miscSettings')
 if (typeof ls_settings !== 'undefined' && ls_settings !==  null) {
     let parsed = JSON.parse(ls_settings)
     console.log("found data in localStorage, loading settings: ", parsed)
-    Object.assign(settings, {l: parsed}) //update the current settings object with the one from localstorage
+    Object.assign(settings.l, parsed) //update the current settings object with the one from localstorage
 }
 if (typeof ls_misc !== 'undefined' && ls_misc !==  null) {
     let parsed = JSON.parse(ls_misc)
     console.log("found data in localStorage, loading miscSettings: ", parsed)
-    Object.assign(settings, {m: parsed}) //update the current settings object with the one from localstorage
+    Object.assign(settings.m, parsed) //update the current settings object with the one from localstorage
 }
 
 /**
@@ -80,7 +89,7 @@ class SettingElem {
         this.updateMethod = ''
         /** @type {Object} save the props from constructor to this class (instance) */
         this.props = props
-        /** @type {String} type of this settingElem, can be {'bool' | 'sel' | 'heading'} */
+        /** @type {String} type of this settingElem, can be {'bool' | 'sel' | 'heading' | 'text'} */
         this.type = props.type
         /** @type {Boolean} if this setting actually changes something and can be updated. titles are immutable */
         this.mutable = false
@@ -124,6 +133,15 @@ class SettingElem {
                 this.updateMethod = 'onchange'
                 this.optType = props.optType
                 break;
+            case 'text':
+                this.HTML = `<span class="setting-title">${props.title}</span><span>
+                    <input type="text" class="rb-input s-update" name="${props.key}" autocomplete="off" placeholder="${props.value}">
+                </span>
+                `
+                this.mutable = true
+                this.updateKey = `value`
+                this.updateMethod = `oninput`
+                break;
             default:
                 this.HTML = `<span class="setting-title">${props.title}</span><span>Unknown setting type</span>`
                 this.mutable = false
@@ -153,7 +171,6 @@ class SettingElem {
         } else { //this adds support for custom callbacks (custom settings)
             callback()
         }
-        
     }
 
     /**
@@ -185,26 +202,26 @@ class SettingElem {
  */
 function initsettings() {
     //add value key to all settings from the container (after container is initialized)
-    for (let i = 0; i < Object.keys(settings.s).length; i++) {
-        const setting = settings.s[Object.keys(settings.s)[i]];
+    for (let i = 0; i < settings.s.length; i++) {
+        const setting = settings.s[i];
 
-        if (setting.type === 'bool' || setting.type === 'sel') {
-            setting.value = Container.p[setting.key]
+        if (setting.type !== 'heading') {
+            if (typeof setting.updateCallback !== 'undefined' && setting.updateCallback === 'misc') {
+                console.log(setting.key, settings.m[setting.key])
+                setting.value = settings.m[setting.key]
+            } else {
+                setting.value = Container.p[setting.key]
+            }
         }   
     }
 
     //generate the setting elements
-    for (let i = 0; i < Object.keys(settings.s).length; i++) {
-        const key = Object.keys(settings.s)[i];
-        const val = settings.s[key]
+    for (let i = 0; i < settings.s.length; i++) {
+        const val = settings.s[i]
 
         let set = new SettingElem(val)
         document.getElementById("layout-settings").appendChild(set.elem)
     }
-
-    //misc settings? - TODO put these into settings object
-    let incognito = new SettingElem({ title:`Make settings & toggle buttons incognito`,desc:'make the small settings & toggle buttons invisible & only appear on hover',key:'incognito',type:'bool',classes:['incognito',''], updateCallback: 'misc', value: settings.m.incognito })
-    document.getElementById('settingElem-hidingTitle').prepend(incognito.elem)
     
     //generate sortable links
     //load links into columns - repeat once for every column
@@ -237,12 +254,10 @@ function initsettings() {
         document.querySelector(fewestChildrenColumnSelector).appendChild(link.elem)
     }
 
-    //serialize settings for links and  save them to localstorage
-    document.getElementById('links-save').onclick = saveSettings
+    //add onclick listeners for saving
+    [...document.getElementsByClassName('hook-save-btn')].forEach(btn => {btn.onclick = saveSettings})
 
     //backup
-    document.getElementById('backup').onclick = () => {toggleElem('backup-screen')}
-    document.getElementById('backup-close').onclick = () => {toggleElem('backup-screen')}
     document.getElementById('export-json').onclick = exportJson
     document.getElementById('import-json').onclick = importJson
 
@@ -335,6 +350,9 @@ function exportJson() {
     //add classlist
     exportObj.classList = [...document.getElementById('container').classList].join(' ')
 
+    //misc settings
+    exportObj.miscSettings = settings.m
+
     document.getElementById('export-json').previousElementSibling.value = JSON.stringify(exportObj)
 }
 
@@ -349,6 +367,7 @@ function importJson() {
             localStorage.setItem('links', JSON.stringify(val.links))
             localStorage.setItem('Container', JSON.stringify(val.Container))
             localStorage.setItem('classList', val.classList)
+            localStorage.setItem('miscSettings', JSON.stringify(val.miscSettings))
 
             window.location.reload()
         } else {
