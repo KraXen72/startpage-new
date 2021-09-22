@@ -10,17 +10,17 @@ const settings = {
         { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
         { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',optType: Number, opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
         { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
+        { title:"Hiding elements",type:'heading',key:"hidingTitle" },
+        { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
+        { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
+        { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
+        { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] },
         { title:`Misc`,type:'heading',key:"miscTitle"},
         { title:`Make settings & toggle buttons incognito`,desc:'make the small settings & toggle buttons invisible & only appear on hover',key:'incognito',type:'bool',classes:['incognito',''], updateCallback: 'misc' },
         { title:`Greeting text:`,key:'greeting',type:'text',updateCallback: 'misc',value: 'heya'},
         { title:`1st column title:`,key:'col1Title',type:'text',updateCallback: 'misc', value: 'links' },
         { title:`2nd column title:`,key:'col2Title',type:'text',updateCallback: 'misc', value: 'social' },
-        { title:`3rd column title:`,key:'col3Title',type:'text',updateCallback: 'misc', value: 'other' },
-        { title:"Hiding elements",type:'heading',key:"hidingTitle" },
-        { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
-        { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
-        { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
-        { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] }
+        { title:`3rd column title:`,key:'col3Title',type:'text',updateCallback: 'misc', value: 'other' }
     ],
     l: { //links
         col1: [
