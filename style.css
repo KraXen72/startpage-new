@@ -95,14 +95,6 @@ body {
   left: initial;
   right: 0; 
 }
-/*
-#settings-screen-left.hidden {
-  transform: translateX(-100%);
-}
-#settings-screen-right.hidden {
-  transform: translateX(100%);
-}
-*/
 
 #backup-title-span {
   display: flex;
