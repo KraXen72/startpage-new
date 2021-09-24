@@ -274,9 +274,13 @@ function miscUpdate(what, value) {
  */
 
 function checkAndApplyImg(path, imgelem) {
-    let testimg = document.getElementById('testimg')
+    if (path === "img/icon64.png") {
+        imgelem.src = 'img/placeholder.png'
+    } else {
+        let testimg = document.getElementById('testimg')
 
-    testimg.onload = () => { imgelem.src = path }
-    testimg.onerror = () => { imgelem.src = 'img/placeholder.png' }
-    testimg.src = path
+        testimg.onload = () => { imgelem.src = path }
+        testimg.onerror = () => { imgelem.src = 'img/placeholder.png' }
+        testimg.src = path
+    }   
 }
