@@ -20,7 +20,8 @@ const containerObj = {
         greeting: 'heya', //greeting and other texts
         col1Title: 'links',
         col2Title: 'social',
-        col3Title: 'other'
+        col3Title: 'other',
+        imgPath: 'yahallo.png' //image path
     }
 }
 
@@ -41,9 +42,10 @@ if (typeof ls_containerObj !== 'undefined' && ls_containerObj !==  null) {
 const Container = Observable.from(containerObj)
 Container.observe(changes => {
     changes.forEach(change => {
-        console.log(`detected ${change.type} in '${change.path[1]}': `, change)
-        if (change.path[0] === "p") {
-            key = change.path[1]
+        //console.log(`detected ${change.type} in '${change.path[1]}': `, change)
+
+        if (change.path[0] === "p") { //props changed
+            let key = change.path[1]
             if (key === "cols") {
                 //if its not 2 or 3 just dont change anything
                 change.value = [2,3].includes(change.value) ? change.value : Container.p.cols
@@ -69,10 +71,14 @@ Container.observe(changes => {
                     setTimeout(() => {document.getElementById("settingElem-tallpic").querySelector(".s-update").checked = false;}, 150)
                 }
             }
-        } else if (change.path.length === 1 && change.type === "insert") {
+        } else if (change.path[0] === 'm') { //misc changed
+            let key = change.path[1]
+            miscUpdate(key, change.value)
+        } else if (change.path.length === 1 && change.type === "insert") { //someone tried to do Container.something instead of Container.p.something
             console.log("unsupported change, reverting.")
             delete Container[change.path[0]]
         } else {
+            //if delete than just go with it, otherwise alert the user that they are doing bullshitery
             if (!change.type === "delete") {
                 console.warn(`you assigned some random bs deep in the object and its not a prop, that's on you man`)
             }
@@ -150,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initlinks()
     initsettings()
+    Object.keys(Container.m).forEach(key => { miscUpdate(key, Container.m[key]) }) //this should reflect the values from settings
 })
 
 function initlinks() {
@@ -217,7 +224,7 @@ function toggleElem(id) {
  * show and element and then fade it away
  * @param {String} query document.querySelector for element to blink
  */
- function blinkElem(query, dec) {
+function blinkElem(query, dec) {
     let elem = document.querySelector(query)
 
     elem.classList.remove('fade')
@@ -226,4 +233,50 @@ function toggleElem(id) {
         elem.classList.add('fade')
         elem.classList.add('invis')
     },0)
+}
+
+/**
+ * add functionality to the misc settings
+ * @param {String} what 'incognito'
+ * @param {String | Boolean} value the new value
+ */
+function miscUpdate(what, value) {
+    switch (what) {
+        case "incognito":
+            [...document.querySelectorAll(".settings.smolbtn, .toggle.smolbtn")].forEach(smolbtn => {
+                if (value === true) {
+                    smolbtn.classList.add('incognito')
+                } else {
+                    smolbtn.classList.remove('incognito')
+                }
+            })
+            break;
+        case "greeting":
+            document.querySelector(`h1.title.greeting`).innerHTML = `${value} <span class="accent">~</span>`
+            break;
+        case "col1Title":
+        case "col2Title":
+        case "col3Title":
+            document.querySelector(`div.title.${what}`).innerHTML = value || "..."
+            break;
+        case "imgPath":
+            let img = document.getElementById('main-img')
+            checkAndApplyImg(`img/${value}`,img)
+        default:
+            break;
+    }
+}
+
+/**
+ * checks if an image exists and if yes applies it to a given element
+ * @param {String} path image path
+ * @param {Element} imgelem image element
+ */
+
+function checkAndApplyImg(path, imgelem) {
+    let testimg = document.getElementById('testimg')
+
+    testimg.onload = () => { imgelem.src = path }
+    testimg.onerror = () => { imgelem.src = 'img/placeholder.png' }
+    testimg.src = path
 }

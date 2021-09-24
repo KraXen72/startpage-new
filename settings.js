@@ -20,7 +20,8 @@ const settings = {
         { title:`Greeting text:`,key:'greeting',type:'text',updateCallback: 'misc',value: 'heya'},
         { title:`1st column title:`,key:'col1Title',type:'text',updateCallback: 'misc', value: 'links' },
         { title:`2nd column title:`,key:'col2Title',type:'text',updateCallback: 'misc', value: 'social' },
-        { title:`3rd column title:`,key:'col3Title',type:'text',updateCallback: 'misc', value: 'other' }
+        { title:`3rd column title:`,key:'col3Title',type:'text',updateCallback: 'misc', value: 'other' },
+        { title:`image path:`,key:'imgPath',type:'text',updateCallback: 'misc', value: 'other' }
     ],
     l: { //links
         col1: [
@@ -123,7 +124,7 @@ class SettingElem {
                 break;
             case 'text':
                 this.HTML = `<span class="setting-title">${props.title}</span><span>
-                    <input type="text" class="rb-input s-update" name="${props.key}" autocomplete="off" placeholder="${props.value}">
+                    <input type="text" class="rb-input s-update" name="${props.key}" autocomplete="off" value="${props.value}">
                 </span>
                 `
                 this.mutable = true
