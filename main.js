@@ -14,6 +14,13 @@ const containerObj = {
         nogreeting: true, //.nogreeting:	hide greeting
         leftpic: false, //.leftpic: put the pic to the left instead of top
         tallpic: false //.tallpic: pic will be yahallo (358*279.72px) tall and wide (only works with leftpic)
+    }, 
+    m: { //misc
+        incognito: false, //make buttons incognito
+        greeting: 'heya', //greeting and other texts
+        col1Title: 'links',
+        col2Title: 'social',
+        col3Title: 'other'
     }
 }
 
@@ -23,7 +30,8 @@ let ls_containerObj = localStorage.getItem('Container')
 if (typeof ls_containerObj !== 'undefined' && ls_containerObj !==  null) {
     let parsed = JSON.parse(ls_containerObj)
     console.log("found data in localStorage, loading Container: ", parsed)
-    Object.assign(containerObj, {p: parsed}) //update the current container object with the one from localstorage
+    console.log(parsed)
+    Object.assign(containerObj, parsed) //update the current container object with the one from localstorage
 }
 
 /**
@@ -33,10 +41,9 @@ if (typeof ls_containerObj !== 'undefined' && ls_containerObj !==  null) {
 const Container = Observable.from(containerObj)
 Container.observe(changes => {
     changes.forEach(change => {
+        console.log(`detected ${change.type} in '${change.path[1]}': `, change)
         if (change.path[0] === "p") {
             key = change.path[1]
-            //console.log(`detected ${change.type} in '${key}': `, change)
-
             if (key === "cols") {
                 //if its not 2 or 3 just dont change anything
                 change.value = [2,3].includes(change.value) ? change.value : Container.p.cols
@@ -173,15 +180,21 @@ function initlinks() {
  * @returns {Object} current Container configuration
  */
 function serializeContainer() {
-    let keys = Object.keys(Container.p)
-    let saveme = {p: {}}
+    let serialized = {}
 
-    keys.forEach(key => {
-        let val = Container.p[key]
-        saveme.p[key] = val
+    let keys = ["p", "m"] //first level keys of Container
+    keys.forEach(topKey => {
+        //for each loop through all it's ckeys and push them to thiskey
+        let thisKey = {} //the object that we are pushing values to
+
+        //copy this entire key to the 'thisKey' object
+        Object.keys(Container[topKey]).forEach(lKey => {
+            thisKey[lKey] = Container[topKey][lKey]
+        })
+        //add this key to the serialized object
+        serialized[topKey] = thisKey
     })
-
-    return saveme
+    return serialized
 }
 
 /**

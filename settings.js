@@ -50,13 +50,6 @@ const settings = {
             {name:"link 4",url:"#"},
             {name:"link 5",url:"#"},
         ]
-    },
-    m: { //misc
-        incognito: false,
-        greeting: 'heya',
-        col1Title: 'links',
-        col2Title: 'social',
-        col3Title: 'other'
     }
 }
 var Sortables = []
@@ -70,11 +63,6 @@ if (typeof ls_settings !== 'undefined' && ls_settings !==  null) {
     let parsed = JSON.parse(ls_settings)
     console.log("found data in localStorage, loading settings: ", parsed)
     Object.assign(settings.l, parsed) //update the current settings object with the one from localstorage
-}
-if (typeof ls_misc !== 'undefined' && ls_misc !==  null) {
-    let parsed = JSON.parse(ls_misc)
-    console.log("found data in localStorage, loading miscSettings: ", parsed)
-    Object.assign(settings.m, parsed) //update the current settings object with the one from localstorage
 }
 
 /**
@@ -167,7 +155,7 @@ class SettingElem {
             //saveSettings()
         } else if (callback === 'misc') {
             //misc settings
-            settings.m[this.props.key] = value
+            Container.m[this.props.key] = value
         } else { //this adds support for custom callbacks (custom settings)
             callback()
         }
@@ -207,8 +195,7 @@ function initsettings() {
 
         if (setting.type !== 'heading') {
             if (typeof setting.updateCallback !== 'undefined' && setting.updateCallback === 'misc') {
-                console.log(setting.key, settings.m[setting.key])
-                setting.value = settings.m[setting.key]
+                setting.value = Container.m[setting.key]
             } else {
                 setting.value = Container.p[setting.key]
             }
@@ -286,15 +273,11 @@ function saveSettings() {
 
     //save layout
     let saveme = serializeContainer()
-    saveme = saveme.p
     localStorage.setItem('Container', JSON.stringify(saveme))
 
     //save classlist
     let classList = [...document.getElementById('container').classList].join(' ')
     localStorage.setItem('classList', classList)
-
-    //save misc
-    localStorage.setItem('miscSettings', JSON.stringify(settings.m))
 
     console.log('saved')
     blinkElem("#savedmsg") //show saved message
@@ -344,14 +327,10 @@ function exportJson() {
 
     //add settings/Container
     let saveme = serializeContainer()
-    saveme = saveme.p
     exportObj.Container = saveme
 
     //add classlist
     exportObj.classList = [...document.getElementById('container').classList].join(' ')
-
-    //misc settings
-    exportObj.miscSettings = settings.m
 
     document.getElementById('export-json').previousElementSibling.value = JSON.stringify(exportObj)
 }
