@@ -5,8 +5,7 @@ const containerObj = {
     p: { //props
         connect: false, //.connect: connects links together
         compact: false, //.compact: make links compact
-        slim: false, //.slim: max width is now 32rem instaed of 40rem
-        thicc: false, //.thicc max width is now 55rem instead of 40rem
+        width: 40, //max container width. 32 - 65rem
         cols: 3, //.cols-2 || .cols-3: show either 1,2,3 or just 1,2 columns
         verdana: false, //.verdana: use verdana font
         nosearch: false, //.nosearch: hide search bar
@@ -55,6 +54,8 @@ Container.observe(changes => {
                 let cl = [...containerElem.classList] //backup classlist
                 cl[1] = `cols-${change.value}`
                 containerElem.classList = cl.join(" ") //reconstruct classlists
+            } else if (key === "width") {
+                document.getElementById('styles').innerHTML = `:root{--maxwidth:${change.value || 40}rem;}`
             } else {
                 //if new value is true, add the class otherwise remove the class 
                 if (change.value === true) {
@@ -156,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         containerElem.classList = ls_classList
     }
 
+    document.getElementById('styles').innerHTML = `:root{--maxwidth:${Container.p.width}rem;}`
     updateClock()
     initlinks()
     initsettings()
@@ -293,7 +295,7 @@ function checkAndApplyImg(path, imgelem) {
  */
 function updateClock() {
     time.setTime(Date.now())
-    
+
     let clock = document.getElementById('clock')
     let timestr = time.toTimeString()
     let t = timestr.split(":")

@@ -6,9 +6,8 @@ const settings = {
         { title:`Compact links`,desc:`make links not take up as much space`,type:'bool',key:'compact',classes:['compact',''] },
         { title:`Move Image to left`,desc:`Move image to left instead of top.`,type:'bool',key:'leftpic',classes:['leftpic',''] },
         { title:`Portrait left image`,desc:`(if Image is on the left) make the image portrait`,type:'bool',key:'tallpic',classes:['tallpic',''] },
-        { title:`Slim container`,desc:`max width of container is now 32rem instaed of 40rem`,type:'bool',key:'slim',classes:['slim','']},
-        { title:`Thicc container`,desc:`max width of container is now 55rem instaed of 40rem`,type:'bool',key:'thicc',classes:['thicc','']},
-        { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',optType: Number, opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
+        { title:`Container width (rem)`,desc:`set the container thickness. default is 40rem`,type:'num',optType: 'Number',key:'width',min:32,max:65},
+        { title:`Number of columns`,desc:`How many columns to show: either 2 or 3`,type:'sel',optType: 'Number', opts:[3,2],key:'cols',classes:['cols-3','cols-2'] },
         { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
         { title:"Hiding elements",type:'heading',key:"hidingTitle" },
         { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
@@ -79,7 +78,7 @@ class SettingElem {
         this.updateMethod = ''
         /** @type {Object} save the props from constructor to this class (instance) */
         this.props = props
-        /** @type {String} type of this settingElem, can be {'bool' | 'sel' | 'heading' | 'text'} */
+        /** @type {String} type of this settingElem, can be {'bool' | 'sel' | 'heading' | 'text' | 'num'} */
         this.type = props.type
         /** @type {Boolean} if this setting actually changes something and can be updated. titles are immutable */
         this.mutable = false
@@ -131,7 +130,21 @@ class SettingElem {
                 this.mutable = true
                 this.updateKey = `value`
                 this.updateMethod = `oninput`
+                this.optType = props.optType
                 break;
+            case 'num':
+                    this.HTML = `<span class="setting-title">${props.title}</span><span>
+                        <input type="number" class="rb-input s-update" name="${props.key}" autocomplete="off" value="${props.value}" min="${props.min}" max="${props.max}">
+                    </span>
+                    `
+                    if (!!props.desc && props.desc !== "") {
+                        this.HTML += `<span class="setting-desc" title="${props.desc}">?</span>`
+                    }
+                    this.mutable = true
+                    this.updateKey = `value`
+                    this.updateMethod = `onchange`
+                    this.optType = props.optType
+                    break;
             default:
                 this.HTML = `<span class="setting-title">${props.title}</span><span>Unknown setting type</span>`
                 this.mutable = false
@@ -148,9 +161,19 @@ class SettingElem {
         
         //console.log(`dry run: would update '${this.props.key}' to '${value}'`)
         if (callback === 'normal') {
+            console.log(this.props, this.optType === 'Number')
             //update the main container object that is bound to layout
-            if (this.optType !== '' && this.optType === Number) {
-                Container.p[this.props.key] = parseInt(value) 
+            if (this.optType !== '' && this.optType === 'Number') {
+                if (this.type === 'num') {
+                    //check it does not exceed range and updat the input if does
+                    console.log(value)
+                    value = parseInt(value)
+                    value = value > this.props.max ? this.props.max : value < this.props.min ? this.props.min : value
+                    target.value = value
+                    Container.p[this.props.key] = value
+                } else {
+                    Container.p[this.props.key] = parseInt(value)
+                }
             } else {
                 Container.p[this.props.key] = value
             }

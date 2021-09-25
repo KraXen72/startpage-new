@@ -15,13 +15,13 @@
 */
 
 /*slim*/
-.container.slim { --maxwidth: 32rem; }
+/*.container.slim { --maxwidth: 32rem; }*/
 
 /*thicc*/
-.container.thicc { --maxwidth: 55rem; }
+/*.container.thicc { --maxwidth: 55rem; }*/
 
 /*thicc & slim - cancel each other out*/
-.container.thicc.slim { --maxwidth: 40rem; }
+/*.container.thicc.slim { --maxwidth: 40rem; }*/
 
 /*connect*/
 .container.connect { --margin-col: 0px; }
