@@ -12,6 +12,7 @@ const settings = {
         { title:`Use Verdana font`,desc:`Use Verdana font instead of Roboto`,type:'bool',key:'verdana',classes:['verdana',''] },
         { title:"Hiding elements",type:'heading',key:"hidingTitle" },
         { title:`Hide Search`,desc:'',type:'bool',key:'nosearch',classes:['nosearch',''] },
+        { title:`Hide Clock`,desc:'',type:'bool',key:'noclock',classes:['noclock',''] },
         { title:`Hide Image`,desc:'',type:'bool',key:'nopic',classes:['nopic',''] },
         { title:`Hide Title`,desc:'',key:'notitle',type:'bool',classes:['notitle',''] },
         { title:`Hide Greeting`,desc:'',key:'nogreeting',type:'bool',classes:['nogreeting',''] },

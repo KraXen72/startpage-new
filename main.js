@@ -1,4 +1,5 @@
 let toggle, settbtn, containerElem
+let time = new Date()
 
 const containerObj = {
     p: { //props
@@ -13,7 +14,8 @@ const containerObj = {
         notitle: false, //.notitle: hide category titles
         nogreeting: true, //.nogreeting:	hide greeting
         leftpic: false, //.leftpic: put the pic to the left instead of top
-        tallpic: false //.tallpic: pic will be yahallo (358*279.72px) tall and wide (only works with leftpic)
+        tallpic: false, //.tallpic: pic will be yahallo (358*279.72px) tall and wide (only works with leftpic)
+        noclock: false //.clock show or hide side clock
     }, 
     m: { //misc
         incognito: false, //make buttons incognito
@@ -154,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         containerElem.classList = ls_classList
     }
 
+    updateClock()
     initlinks()
     initsettings()
     Object.keys(Container.m).forEach(key => { miscUpdate(key, Container.m[key]) }) //this should reflect the values from settings
@@ -283,4 +286,36 @@ function checkAndApplyImg(path, imgelem) {
         testimg.onerror = () => { imgelem.src = 'img/placeholder.png' }
         testimg.src = path
     }   
+}
+
+/**
+ * update the #clock. call this function once, it will itself every minute (adjusts automatically)
+ */
+function updateClock() {
+    time.setTime(Date.now())
+    
+    let clock = document.getElementById('clock')
+    let timestr = time.toTimeString()
+    let t = timestr.split(":")
+
+    //calculate when to next update time
+    let next = new Date()
+    next.setHours(time.getHours())
+    next.setMinutes(time.getMinutes() + 1)
+    next.setSeconds(0)
+
+    let diffTime = Math.abs(next - time) - 1;
+    /*console.log("next in ms: ", diffTime)
+    console.log(`now: ${time.toTimeString()} next: ${next.toTimeString()}`)*/
+
+
+    clock.innerHTML = `
+    <span class="clockdigit">${t[0].substr(0, 1)}</span>
+    <span class="clockdigit">${t[0].substr(1, 2)}</span>
+    <span class="clockdigit">-</span>
+    <span class="clockdigit">${t[1].substr(0, 1)}</span>
+    <span class="clockdigit">${t[1].substr(1, 2)}</span>
+    `
+
+    setTimeout(updateClock,diffTime)
 }

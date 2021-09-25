@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Rubik:ital,wght@1,300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@font-face {
+  font-family: "Cascadia";
+  src: url('fonts/CascadiaMono.woff2') format('woff');
+}
 :root {
 	/*
   --main-background: #1e222a;
@@ -222,10 +227,10 @@ body {
 .container {
   display: grid;
   grid-template-areas:
-    "header"
-    "search"
-    "colwrap";
-  grid-template-columns: 3fr;
+    "header header"
+    "search search"
+    "clock colwrap";
+  grid-template-columns: min-content 3fr;
   grid-template-rows: minmax(var(--min-pic-height-short), 1fr) 1fr 1fr;
 
   width: 100%;
@@ -240,6 +245,13 @@ header {
   overflow: hidden;
   border: var(--border-size) solid var(--main-background);
   max-height: 200px;
+
+  /*display: grid;
+  grid-template: 1fr / 1fr;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  place-items: center;*/
 }
 header:hover { border: var(--border-size) solid var(--green); }
 header img {
@@ -248,6 +260,41 @@ header img {
   object-fit: cover;
   object-position: 0 -40px;
   user-select: none;
+
+  /*grid-area: 1 / 1 / 2 / 2;*/
+}
+
+#clock {
+  grid-area: clock;
+  position: relative;
+  z-index: 3;
+
+  height: auto;
+
+  background: var(--main-card-background);
+  font-size: 3.5rem;
+
+  display: grid;
+  grid-template: repeat(5, 1fr) / 1fr;
+  align-items: center;
+  justify-content: center;
+
+  align-content: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius);
+  margin: var(--margin-row) var(--margin-col);
+}
+
+#clock .clockdigit {
+  padding: 0;
+  margin: 0;
+
+  font-family: "Cascadia";
+  font-weight: 300;
+  color: #a3a5aa;
+
+  display: flex;
+  justify-content: center;
 }
 
 /*serach*/

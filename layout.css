@@ -45,6 +45,7 @@
 }
 .container.connect.nogreeting:not(.notitle) .col,
 .container.connect:not(.nogreeting) .col { margin: 0 }
+.container.connect:not(.noclock) #clock { margin-right: calc(var(--margin-row) * 1.25); }
 
 /*compact*/
 .container.compact .col { align-content: start; } 
@@ -111,15 +112,18 @@
 /*no greeting*/
 .container.nogreeting .greeting { display: none; } 
 
+/*no clock*/
+.container.noclock #clock { display: none; }
+
 /*leftpic*/
 .container.leftpic.nogreeting.nopic:not(.notitle) .first-col { border-top-left-radius: var(--border-radius); }
 .container.leftpic { /*by default 3 cols and search*/
-	grid-template-columns: min-content 3fr;
+	grid-template-columns: min-content min-content 3fr;
 	grid-template-rows: min-content minmax(var(--min-pic-height-short), 1fr);
 
 	grid-template-areas: 
-	"search search"
-	"header colwrap";
+	"search search search"
+	"clock header colwrap";
 
 	max-width: calc(var(--maxwidth) + var(--min-pic-width))
 }
@@ -135,6 +139,12 @@
 
 	min-height: var(--min-pic-height);
 	max-width: var(--min-pic-width);
+}
+.container.leftpic:not(.noclock) #clock {
+	max-height: var(--min-pic-height-short);
+	height: auto;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 /*leftpic connect requires a wholeass separate category cause its actin up*/
@@ -176,17 +186,17 @@
 
 /*2 columns leftpic*/
 .container.leftpic.cols-2 { /*2 cols with search*/
-	grid-template-columns: min-content 2fr;
+	grid-template-columns: min-content min-content 2fr;
 	grid-template-areas: 
-	"search search"
-	"header colwrap";
+	"search search search"
+	"clock header colwrap";
 }
 
 /*lefpic nosearch*/
 .container.leftpic.nosearch {
 	grid-template-rows: minmax(var(--min-pic-height), 1fr);
 	grid-template-areas: 
-	"header colwrap";
+	"clock header colwrap";
 }
 
 /*leftpic but hidden*/
