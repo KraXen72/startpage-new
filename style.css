@@ -71,6 +71,7 @@ body {
 }*/
 .hidden {display:none !important;}
 .flex {display: flex; align-items: center}
+.marright {margin-right: 7px;}
 
 /*settings*/
 #settings-screen-left, #settings-screen-right {
@@ -434,7 +435,8 @@ select.s-update {
   color: black;
   mix-blend-mode: difference;
 }
-.switch input {
+
+.switch input[type="checkbox"] {
   display:none;
 }
 .slider, select.s-update{
