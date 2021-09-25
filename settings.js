@@ -25,24 +25,18 @@ const settings = {
     ],
     l: { //links
         col1: [
-            {name:"gmail",url:"https://mail.google.com/mail/u/0/#inbox"},
-            {name:"outlook",url:"https://outlook.sk"},
-            {name:"r/unixpron",url:"https://www.reddit.com/r/unixporn/"},
-            {name:"r/mk",url:"https://www.reddit.com/r/MechanicalKeyboards/"},
-            {name:"monkeytype",url:"https://monkeytype.com/"},
-            {name:"rosebox",url:"https://github.com/KraXen72/rosebox"},
-            {name:"krunker market",url:"https://www.krunker.io/social.html"},
-            {name:"yeehow item list",url:"https://yee.how/item-list/"}
+            {name:"link 1",url:"#"},
+            {name:"link 2",url:"#"},
+            {name:"link 3",url:"#"},
+            {name:"link 4",url:"#"},
+            {name:"link 5",url:"#"},
         ],
         col2: [
-            {name:"github",url:"https://github.com/"},
-            {name:"mod forum",url:"https://forum.vivaldi.net/category/52/modifications"},
-            {name:"trello",url:"https://trello.com/kraxen7/boards"},
-            {name:"pcmskin3d",url:"https://www.planetminecraft.com/pmcskin3d/"},
-            {name:"keybr",url:"https://www.keybr.com/"},
-            {name:"planningcenter",url:"https://services.planningcenteronline.com/dashboard"},
-            {name:"wallpaper collection",url:"https://mega.nz/folder/PpohCIpT#tII4Q60AFpgfnEYFywwlow"},
-            {name:"catus airsoft",url:"https://catus.sk"}
+            {name:"link 1",url:"#"},
+            {name:"link 2",url:"#"},
+            {name:"link 3",url:"#"},
+            {name:"link 4",url:"#"},
+            {name:"link 5",url:"#"},
         ],
         col3: [
             {name:"link 1",url:"#"},
@@ -57,7 +51,6 @@ var Sortables = []
 
 //update from localstorage here
 let ls_settings = localStorage.getItem('links')
-let ls_misc = localStorage.getItem('miscSettings')
 
 //this will only update links & misc settings
 if (typeof ls_settings !== 'undefined' && ls_settings !==  null) {
@@ -371,7 +364,6 @@ function importJson() {
             localStorage.setItem('links', JSON.stringify(val.links))
             localStorage.setItem('Container', JSON.stringify(val.Container))
             localStorage.setItem('classList', val.classList)
-            localStorage.setItem('miscSettings', JSON.stringify(val.miscSettings))
 
             window.location.reload()
         } else {

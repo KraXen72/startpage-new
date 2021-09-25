@@ -72,6 +72,7 @@ body {
 .hidden {display:none !important;}
 .flex {display: flex; align-items: center}
 .marright {margin-right: 7px;}
+.normal-ul {padding-inline-start: 1.2rem;}
 
 /*settings*/
 #settings-screen-left, #settings-screen-right {
@@ -486,19 +487,9 @@ input:checked + .slider:before { transform: translateX(calc(26px * 0.7))}
 }
 
 /* mobile screen */
+
 @media screen and (max-width: 700px) {
-  .container {
-    display: flex;
-    flex-direction: column;
-    grid-auto-rows: auto;
-    width: 100%;
-  }
-
-  .col {
-    grid-area: col;
-  }
-
-  .search input[type="text"] {
-    width: 70%;
+  header img {
+    display: none;
   }
 }

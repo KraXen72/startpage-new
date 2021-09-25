@@ -22,7 +22,7 @@ const containerObj = {
         col1Title: 'links',
         col2Title: 'social',
         col3Title: 'other',
-        imgPath: 'yahallo.png' //image path
+        imgPath: 'background.png' //image path
     }
 }
 
